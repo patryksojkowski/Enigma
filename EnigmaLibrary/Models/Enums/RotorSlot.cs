@@ -1,4 +1,4 @@
-﻿namespace Enigma.Models.Enums
+﻿namespace EnigmaLibrary.Models.Enums
 {
     public enum RotorSlot
     {

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Enigma.Properties
+namespace EnigmaUI.Properties
 {
 
 

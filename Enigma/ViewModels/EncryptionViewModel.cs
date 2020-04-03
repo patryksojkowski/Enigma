@@ -1,18 +1,12 @@
-﻿using Caliburn.Micro;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Enigma.Models;
-
-namespace Enigma.ViewModels
+﻿namespace EnigmaUI.ViewModels
 {
+    using Caliburn.Micro;
+    using EnigmaLibrary.Models.Interfaces;
+
     public class EncryptionViewModel : Screen
     {
         private string _input;
         private string _output;
-        private IEnigma _enigma;
 
         public EncryptionViewModel(IEnigma enigma)
         {
@@ -45,17 +39,7 @@ namespace Enigma.ViewModels
             }
         }
 
-        public IEnigma Enigma
-        {
-            get
-            {
-                return _enigma;
-            }
-            set
-            {
-                _enigma = value;
-            }
-        }
+        public IEnigma Enigma { get; set; }
 
 
         public void Encrypt(string input)

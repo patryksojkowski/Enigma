@@ -71,18 +71,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Models\Components\ComponentFactory.cs" />
-    <Compile Include="Models\Components\IEnigmaComponent.cs" />
-    <Compile Include="Models\EnigmaSettingsStub.cs" />
-    <Compile Include="Models\EnigmaStub.cs" />
-    <Compile Include="Models\Enums\RotorSlot.cs" />
-    <Compile Include="Models\IEnigma.cs" />
-    <Compile Include="Models\IEnigmaComponent.cs" />
-    <Compile Include="Models\IEnigmaSettings.cs" />
-    <Compile Include="Models\Components\Plugboard.cs" />
-    <Compile Include="Models\Components\Reflector.cs" />
-    <Compile Include="Models\Components\Rotor.cs" />
-    <Compile Include="RotorViewModelFactory.cs" />
+    <Compile Include="ViewModels\Components\RotorViewModelFactory.cs" />
     <Compile Include="ViewModels\Components\PlugboardViewModel.cs" />
     <Compile Include="ViewModels\Components\ReflectorViewModel.cs" />
     <Compile Include="ViewModels\EncryptionViewModel.cs" />
@@ -162,6 +151,11 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\EnigmaLibrary\EnigmaLibrary.csproj">
+      <Project>{4d46240b-8ff9-4894-88f5-3de097c3ec45}</Project>
+      <Name>EnigmaLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

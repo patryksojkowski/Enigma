@@ -1,15 +1,10 @@
-﻿using Caliburn.Micro;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Enigma.ViewModels
+﻿namespace EnigmaUI.ViewModels
 {
+    using Caliburn.Micro;
+
     public class ShellViewModel : Conductor<object>
     {
-        public EncryptionViewModel EncryptionViewModel { get; set; }
+        public EncryptionViewModel EncryptionViewModel { get; }
         public SettingsViewModel SettingsViewModel { get; }
 
         public ShellViewModel(EncryptionViewModel encryptionViewModel, SettingsViewModel settingsViewModel)

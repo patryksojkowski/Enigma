@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Caliburn.Micro;
-using Enigma.Models.Components;
-
-namespace Enigma.ViewModels.Components
+﻿namespace EnigmaUI.ViewModels.Components
 {
+    using Caliburn.Micro;
+    using EnigmaLibrary.Models.Interfaces.Components;
+
     public class PlugboardViewModel
     {
-        private readonly IEventAggregator _eventAggregator;
-        private readonly ComponentFactory _componentFactory;
+        private readonly IEnigmaEventAggregator _enigmaAggregator;
+        private readonly IComponentFactory _componentFactory;
 
-        public PlugboardViewModel(IEventAggregator eventAggregator, ComponentFactory componentFactory)
+        public PlugboardViewModel(IEnigmaEventAggregator enigmaAggregator, IComponentFactory componentFactory)
         {
-            _eventAggregator = eventAggregator;
+            _enigmaAggregator = enigmaAggregator;
             _componentFactory = componentFactory;
         }
 
         public void ChangePlugboard()
         {
-            _eventAggregator.PublishOnUIThread(_componentFactory.Create<Plugboard>());
+            _enigmaAggregator.Publish(_componentFactory.CreatePlugboard());
         }
     }
 }

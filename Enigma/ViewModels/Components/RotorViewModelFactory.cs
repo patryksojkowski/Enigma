@@ -4,23 +4,22 @@
     using EnigmaLibrary.Models.Interfaces.Components;
     using EnigmaLibrary.Models.Enums;
 
-    public class RotorViewModel
+    public class RotorViewModelFactory
     {
         private readonly IEnigmaEventAggregator _enigmaAggregator;
         private readonly IComponentFactory _componentFactory;
-        public RotorSlot _slot;
 
-        public RotorViewModel(IEnigmaEventAggregator enigmaAggregator, IComponentFactory componentFactory, RotorSlot slot)
+        public RotorViewModelFactory(IEnigmaEventAggregator enigmaAggregator, IComponentFactory componentFactory)
         {
             _enigmaAggregator = enigmaAggregator;
             _componentFactory = componentFactory;
-            _slot = slot;
         }
 
-
-        public void ChangeRotor()
+        public RotorViewModel Create(RotorSlot Slot)
         {
-            _enigmaAggregator.Publish(_componentFactory.CreateRotor(_slot));
+            return new RotorViewModel(_enigmaAggregator, _componentFactory, Slot);
         }
+
+
     }
 }

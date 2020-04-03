@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Enigma.Models.Enums;
-using Enigma.ViewModels.Components;
-
-namespace Enigma.ViewModels
+﻿namespace EnigmaUI.ViewModels
 {
+    using EnigmaUI.ViewModels.Components;
+    using EnigmaLibrary.Models.Enums;
+
     public class SettingsViewModel
     {
         public RotorViewModel Rotor1ViewModel { get; set; }
