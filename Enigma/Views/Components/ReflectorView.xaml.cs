@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Enigma.Views
+namespace Enigma.Views.Components
 {
     /// <summary>
-    /// Interaction logic for RotorView.xaml
+    /// Interaction logic for ReflectorView.xaml
     /// </summary>
-    public partial class RotorView : UserControl
+    public partial class ReflectorView : UserControl
     {
-        public RotorView()
+        public ReflectorView()
         {
             InitializeComponent();
         }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Enigma.Models.Components;
+using Enigma.Models.Enums;
 
 namespace Enigma.Models
 {
@@ -14,7 +15,6 @@ namespace Enigma.Models
 
         public EnigmaStub(IEventAggregator eventAggregator, IEnigmaSettings enigmaSettings)
         {
-            Rotor1 = new Rotor('Z', RotorSlot.One);
             _eventAggregator = eventAggregator;
             _eventAggregator.Subscribe(this);
         }

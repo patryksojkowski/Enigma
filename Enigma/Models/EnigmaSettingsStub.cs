@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Enigma.Models.Components;
+using Enigma.Models.Enums;
 
 namespace Enigma.Models
 {
@@ -26,6 +27,7 @@ namespace Enigma.Models
 
         public void Handle(Rotor rotor)
         {
+            ClearComponents();
             if (rotor.Slot == RotorSlot.One)
             {
                 Rotor1 = rotor;
@@ -43,14 +45,25 @@ namespace Enigma.Models
 
         public void Handle(Reflector reflector)
         {
+            ClearComponents();
             Reflector = reflector;
             _eventAggregator.PublishOnUIThread(this);
         }
 
         public void Handle(Plugboard plugboard)
         {
+            ClearComponents();
             Plugboard = plugboard;
             _eventAggregator.PublishOnUIThread(this);
+        }
+
+        private void ClearComponents()
+        {
+            Rotor1 = null;
+            Rotor2 = null;
+            Rotor3 = null;
+            Reflector = null;
+            Plugboard = null;
         }
     }
 }

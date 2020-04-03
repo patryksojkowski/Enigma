@@ -1,6 +1,8 @@
 ﻿using Caliburn.Micro;
 using Enigma.Models;
+using Enigma.Models.Components;
 using Enigma.ViewModels;
+using Enigma.ViewModels.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,11 +34,14 @@ namespace Enigma
 
             // factories
             container.Singleton<RotorViewModelFactory>();
+            container.Singleton<ComponentFactory>();
 
             // views
             container.Singleton<ShellViewModel>();
             container.Singleton<EncryptionViewModel>();
             container.Singleton<SettingsViewModel>();
+            container.Singleton<PlugboardViewModel>();
+            container.Singleton<ReflectorViewModel>();
 
             // single models
             container.Singleton<IEnigma, EnigmaStub>();

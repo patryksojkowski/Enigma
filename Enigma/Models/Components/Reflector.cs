@@ -10,7 +10,7 @@ namespace Enigma.Models.Components
     {
         public char Process(char input)
         {
-            throw new NotImplementedException();
+            return input;
         }
     }
 }

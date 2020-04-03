@@ -71,9 +71,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Models\Components\ComponentFactory.cs" />
     <Compile Include="Models\Components\IEnigmaComponent.cs" />
     <Compile Include="Models\EnigmaSettingsStub.cs" />
     <Compile Include="Models\EnigmaStub.cs" />
+    <Compile Include="Models\Enums\RotorSlot.cs" />
     <Compile Include="Models\IEnigma.cs" />
     <Compile Include="Models\IEnigmaComponent.cs" />
     <Compile Include="Models\IEnigmaSettings.cs" />
@@ -81,14 +83,22 @@
     <Compile Include="Models\Components\Reflector.cs" />
     <Compile Include="Models\Components\Rotor.cs" />
     <Compile Include="RotorViewModelFactory.cs" />
+    <Compile Include="ViewModels\Components\PlugboardViewModel.cs" />
+    <Compile Include="ViewModels\Components\ReflectorViewModel.cs" />
     <Compile Include="ViewModels\EncryptionViewModel.cs" />
-    <Compile Include="ViewModels\RotorViewModel.cs" />
+    <Compile Include="ViewModels\Components\RotorViewModel.cs" />
     <Compile Include="ViewModels\SettingsViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
     <Compile Include="Views\EncryptionView.xaml.cs">
       <DependentUpon>EncryptionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\RotorView.xaml.cs">
+    <Compile Include="Views\Components\PlugboardView.xaml.cs">
+      <DependentUpon>PlugboardView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Components\ReflectorView.xaml.cs">
+      <DependentUpon>ReflectorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Components\RotorView.xaml.cs">
       <DependentUpon>RotorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SettingsView.xaml.cs">
@@ -131,7 +141,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\RotorView.xaml">
+    <Page Include="Views\Components\PlugboardView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Components\ReflectorView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Components\RotorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

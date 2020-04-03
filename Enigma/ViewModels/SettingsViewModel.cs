@@ -3,20 +3,30 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Enigma.Models.Components;
+using Enigma.Models.Enums;
+using Enigma.ViewModels.Components;
 
 namespace Enigma.ViewModels
 {
     public class SettingsViewModel
     {
-        public RotorViewModel Rotor1 { get; set; }
-        public RotorViewModel Rotor2 { get; set; }
-        public RotorViewModel Rotor3 { get; set; }
-        public SettingsViewModel(RotorViewModelFactory rotorFactory)
+        public RotorViewModel Rotor1ViewModel { get; set; }
+
+        public RotorViewModel Rotor2ViewModel { get; set; }
+
+        public RotorViewModel Rotor3ViewModel { get; set; }
+
+        public ReflectorViewModel ReflectorViewModel { get; }
+
+        public PlugboardViewModel PlugboardViewModel { get; }
+
+        public SettingsViewModel(RotorViewModelFactory rotorViewModelFactory, ReflectorViewModel reflectorViewModel, PlugboardViewModel plugboardViewModel)
         {
-            Rotor1 = rotorFactory.Create(RotorSlot.One);
-            Rotor2 = rotorFactory.Create(RotorSlot.Two);
-            Rotor3 = rotorFactory.Create(RotorSlot.Three);
+            Rotor1ViewModel = rotorViewModelFactory.Create(RotorSlot.One);
+            Rotor2ViewModel = rotorViewModelFactory.Create(RotorSlot.Two);
+            Rotor3ViewModel = rotorViewModelFactory.Create(RotorSlot.Three);
+            PlugboardViewModel = plugboardViewModel;
+            ReflectorViewModel = reflectorViewModel;
         }
     }
 }

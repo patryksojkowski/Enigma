@@ -12,6 +12,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="20"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -22,11 +23,13 @@
         </Grid.RowDefinitions>
         
         <!--Row 1-->
-        <ContentControl Grid.Row="1" Grid.Column="1" x:Name="Rotor1"/>
-        <ContentControl Grid.Row="1" Grid.Column="2" x:Name="Rotor2"/>
-        <ContentControl Grid.Row="1" Grid.Column="3" x:Name="Rotor3"/>
+        <ContentControl Grid.Row="1" Grid.Column="1" x:Name="ReflectorViewModel"/>
+        <ContentControl Grid.Row="1" Grid.Column="2" x:Name="Rotor3ViewModel"/>
+        <ContentControl Grid.Row="1" Grid.Column="3" x:Name="Rotor2ViewModel"/>
+
+        <ContentControl Grid.Row="1" Grid.Column="4" x:Name="Rotor1ViewModel"/>
         
         <!--Row 2-->
-        <ContentControl/>
+        <ContentControl Grid.Row="2" Grid.ColumnSpan="4" x:Name="PlugboardViewModel"/>
     </Grid>
 </UserControl>
