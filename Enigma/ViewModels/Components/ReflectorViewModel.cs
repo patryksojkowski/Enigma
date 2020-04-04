@@ -1,6 +1,7 @@
 ﻿namespace EnigmaUI.ViewModels.Components
 {
     using Caliburn.Micro;
+    using EnigmaLibrary.Models.Enums;
     using EnigmaLibrary.Models.Interfaces.Components;
 
     public class ReflectorViewModel
@@ -16,7 +17,7 @@
 
         public void ChangeReflector()
         {
-            _enigmaAggregator.Publish(_componentFactory.CreateReflector());
+            _enigmaAggregator.Publish(_componentFactory.CreateReflector(ReflectorType.B));
         }
     }
 }

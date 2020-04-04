@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,6 +47,9 @@
     <Compile Include="Caliburn.Micro\EnigmaEventAggregator.cs" />
     <Compile Include="Caliburn.Micro\ExtensionMethods.cs" />
     <Compile Include="Models\Classic\Components\ComponentFactory.cs" />
+    <Compile Include="Models\Classic\Components\Signal.cs" />
+    <Compile Include="Models\Enums\ReflectorType.cs" />
+    <Compile Include="Models\Enums\RotorType.cs" />
     <Compile Include="Models\Interfaces\Components\IComponentFactory.cs" />
     <Compile Include="Models\Interfaces\Components\IEnigmaComponent.cs" />
     <Compile Include="Models\Interfaces\Components\IPlugboard.cs" />
@@ -55,11 +61,21 @@
     <Compile Include="Models\Classic\Enigma.cs" />
     <Compile Include="Models\Classic\EnigmaSettings.cs" />
     <Compile Include="Models\Enums\RotorSlot.cs" />
+    <Compile Include="Models\Interfaces\Components\ISignal.cs" />
     <Compile Include="Models\Interfaces\IEnigma.cs" />
     <Compile Include="Models\Interfaces\IEnigmaSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Config\Reflector.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\Rotor.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Config\SavedSettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -58,7 +58,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EnigmaTests.cs" />
+    <Compile Include="PlugboardTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReflectorTests.cs" />
+    <Compile Include="RotorTests.cs" />
     <Compile Include="Stubs\Stubs.cs" />
   </ItemGroup>
   <ItemGroup>

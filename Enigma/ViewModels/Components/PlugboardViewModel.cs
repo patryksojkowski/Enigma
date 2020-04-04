@@ -16,7 +16,7 @@
 
         public void ChangePlugboard()
         {
-            _enigmaAggregator.Publish(_componentFactory.CreatePlugboard());
+            _enigmaAggregator.Publish(_componentFactory.CreatePlugboard(null));
         }
     }
 }

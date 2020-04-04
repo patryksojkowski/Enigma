@@ -1,0 +1,18 @@
+{
+  "ReflectorType": "B",
+  "Slot1": {
+    "RotorType": "I",
+    "Position":  "0"
+  },
+  "Slot2": {
+    "RotorType": "II",
+    "Position":  "0"
+  },
+  "Slot3": {
+    "RotorType": "III",
+    "Position": "0"
+  },
+  "PlugboardConnections": {
+
+  }
+}

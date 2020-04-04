@@ -2,6 +2,6 @@
 {
     public interface IEnigmaComponent
     {
-        char Process(char input);
+        ISignal Process(ISignal input);
     }
 }

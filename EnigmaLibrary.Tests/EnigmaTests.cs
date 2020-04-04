@@ -1,10 +1,10 @@
-﻿using Caliburn.Micro;
-using Xunit;
-using EnigmaLibrary.Models.Classic;
-using EnigmaLibrary.Tests.Stubs;
-
-namespace EnigmaLibrary.Tests
+﻿namespace EnigmaLibrary.Tests
 {
+    using Caliburn.Micro;
+    using Xunit;
+    using EnigmaLibrary.Models.Classic;
+    using EnigmaLibrary.Tests.Stubs;
+
     public class EnigmaTests
     {
         [Fact]
@@ -24,10 +24,10 @@ namespace EnigmaLibrary.Tests
         }
 
         [Theory]
-        [InlineData('a', 'a')]
-        [InlineData('b', 'b')]
-        [InlineData('c', 'c')]
-        [InlineData('d', 'd')]
+        [InlineData('A', 'A')]
+        [InlineData('B', 'B')]
+        [InlineData('C', 'C')]
+        [InlineData('D', 'D')]
         public void Encrypt_ShouldReturnCharacter(char input, char expected)
         {
             // Arrange
@@ -40,7 +40,7 @@ namespace EnigmaLibrary.Tests
             var result = enigma.Encrypt(input);
 
             // Assert
-            Assert.Equal(result, expected);
+            Assert.Equal(expected, result);
         }
     }
 }

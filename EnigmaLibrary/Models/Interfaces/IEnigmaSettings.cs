@@ -6,5 +6,6 @@
     public interface IEnigmaSettings
     {
         List<IEnigmaComponent> ComponentList { get; set; }
+        IComponentFactry ComponentFactory { get; set; }
     }
 }

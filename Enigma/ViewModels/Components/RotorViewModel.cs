@@ -9,6 +9,7 @@
         private readonly IEnigmaEventAggregator _enigmaAggregator;
         private readonly IComponentFactory _componentFactory;
         public RotorSlot _slot;
+        public int Positon { get; set; }
 
         public RotorViewModel(IEnigmaEventAggregator enigmaAggregator, IComponentFactory componentFactory, RotorSlot slot)
         {
@@ -17,10 +18,11 @@
             _slot = slot;
         }
 
+        public RotorType RotorType { get; set; }
 
         public void ChangeRotor()
         {
-            _enigmaAggregator.Publish(_componentFactory.CreateRotor(_slot));
+            _enigmaAggregator.Publish(_componentFactory.CreateRotor(RotorType, _slot, Positon));
         }
     }
 }
