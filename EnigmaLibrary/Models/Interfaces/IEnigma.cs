@@ -2,6 +2,6 @@
 {
     public interface IEnigma
     {
-        string Encrypt(string input);
+        char Encrypt(char input);
     }
 }

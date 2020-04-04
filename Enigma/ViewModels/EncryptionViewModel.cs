@@ -2,6 +2,7 @@
 {
     using Caliburn.Micro;
     using EnigmaLibrary.Models.Interfaces;
+    using System.Text;
 
     public class EncryptionViewModel : Screen
     {
@@ -44,14 +45,19 @@
 
         public void Encrypt(string input)
         {
-            Output = Enigma.Encrypt(input);
+            var sb = new StringBuilder();
+            foreach(var c in input)
+            {
+                var processed = Enigma.Encrypt(c);
+                sb.Append(processed);
+            }
+
+            Output = sb.ToString();
         }
 
         public bool CanEncrypt(string input)
         {
             return !string.IsNullOrEmpty(input);
         }
-
-
     }
 }

@@ -17,20 +17,14 @@
             _enigmaSettings = enigmaSettings;
         }
 
-        public string Encrypt(string input)
+        public char Encrypt(char input)
         {
-            var sb = new StringBuilder();
-            foreach (var c in input)
+            var output = input;
+            foreach(var component in _enigmaSettings.ComponentList)
             {
-                var x = c;
-                foreach(var component in _enigmaSettings.ComponentList)
-                {
-                    x = component.Process(x);
-                }
-
-                sb.Append(x);
+                output = component.Process(output);
             }
-            return sb.ToString();
+            return output;
         }
 
         public void Handle(IEnigmaSettings enigmaSettings)
