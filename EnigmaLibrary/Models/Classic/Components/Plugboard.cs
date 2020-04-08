@@ -11,8 +11,9 @@
 
         public Plugboard(Dictionary<char, char> connections, Func<char, bool, ISignal> signalFactory)
         {
-            Connections = connections;
             _signalFactory = signalFactory;
+
+            Connections = connections;
         }
 
         public ISignal Process(ISignal input)

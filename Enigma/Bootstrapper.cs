@@ -10,6 +10,7 @@
     using EnigmaLibrary.Models.Classic.Components;
     using EnigmaLibrary.Models.Interfaces;
     using EnigmaLibrary.Models.Interfaces.Components;
+    using EnigmaUI.ViewModels.Helpers;
 
     public class Bootstrapper : BootstrapperBase
     {
@@ -30,7 +31,6 @@
             // main components
             container.Singleton<IWindowManager, WindowManager>();
             container.Singleton<IEventAggregator, EventAggregator>();
-            container.Singleton<IEnigmaEventAggregator, EnigmaEventAggregator>();
 
             // factories
             container.Singleton<IComponentFactory, ComponentFactory>();
@@ -44,6 +44,9 @@
             container.Singleton<PlugboardViewModel>();
             container.Singleton<ReflectorViewModel>();
             container.Singleton<RotorViewModelFactory>();
+
+            // helper views
+            container.Singleton<HelpersViewModelFactory>();
 
             // single models
             container.Singleton<IEnigma, Enigma>();

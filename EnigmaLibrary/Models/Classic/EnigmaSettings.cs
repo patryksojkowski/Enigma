@@ -14,9 +14,9 @@
     /// </summary>
     public class EnigmaSettings : IEnigmaSettings, IHandle<IRotor>, IHandle<IReflector>, IHandle<IPlugboard>
     {
-        private readonly IEnigmaEventAggregator _eventAggregator;
+        private readonly IEventAggregator _eventAggregator;
 
-        public EnigmaSettings(IEnigmaEventAggregator enigmaAggregator, IComponentFactry componentFactory)
+        public EnigmaSettings(IEventAggregator enigmaAggregator, IComponentFactory componentFactory)
         {
             _eventAggregator = enigmaAggregator;
             _eventAggregator.Subscribe(this);
@@ -35,18 +35,25 @@
                     Rotor1 = ComponentFactory.CreateRotor(settings.Slot1.RotorType, RotorSlot.One, settings.Slot1.Position);
                     Rotor2 = ComponentFactory.CreateRotor(settings.Slot2.RotorType, RotorSlot.Two, settings.Slot2.Position);
                     Rotor3 = ComponentFactory.CreateRotor(settings.Slot3.RotorType, RotorSlot.Three, settings.Slot3.Position);
+
                     Reflector = ComponentFactory.CreateReflector(settings.ReflectorType);
                     Plugboard = ComponentFactory.CreatePlugboard(settings.PlugboardConnections);
-                    return;
+                }
+                else
+                {
+                    Rotor1 = ComponentFactory.CreateRotor(RotorType.I, RotorSlot.One, 0);
+                    Rotor2 = ComponentFactory.CreateRotor(RotorType.II, RotorSlot.Two, 0);
+                    Rotor3 = ComponentFactory.CreateRotor(RotorType.III, RotorSlot.Three, 0);
+
+                    Reflector = ComponentFactory.CreateReflector(ReflectorType.B);
+                    Plugboard = ComponentFactory.CreatePlugboard(null);
                 }
 
-                Rotor1 = ComponentFactory.CreateRotor(RotorType.I, RotorSlot.One, 0);
-                Rotor2 = ComponentFactory.CreateRotor(RotorType.II, RotorSlot.Two, 0);
-                Rotor3 = ComponentFactory.CreateRotor(RotorType.III, RotorSlot.Three, 0);
-
-                Reflector = ComponentFactory.CreateReflector(ReflectorType.B);
-                Plugboard = ComponentFactory.CreatePlugboard(null);
-
+                _eventAggregator.PublishOnUIThread(Rotor1);
+                _eventAggregator.PublishOnUIThread(Rotor2);
+                _eventAggregator.PublishOnUIThread(Rotor3);
+                _eventAggregator.PublishOnUIThread(Reflector);
+                _eventAggregator.PublishOnUIThread(Plugboard);
             }
 
             void InitializeComponentList()
@@ -102,7 +109,7 @@
         public IPlugboard Plugboard { get; set; }
         public List<IEnigmaComponent> ComponentList { get; set; }
 
-        public IComponentFactry ComponentFactory { get; set; }
+        public IComponentFactory ComponentFactory { get; set; }
 
         public void Handle(IRotor rotor)
         {
@@ -120,19 +127,16 @@
                 default:
                     break;
             }
-            _eventAggregator.Publish(this);
         }
 
         public void Handle(IReflector reflector)
         {
             Reflector = reflector;
-            _eventAggregator.Publish(this);
         }
 
         public void Handle(IPlugboard plugboard)
         {
             Plugboard = plugboard;
-            _eventAggregator.Publish(this);
         }
 
         private class SavedSettings

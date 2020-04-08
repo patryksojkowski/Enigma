@@ -6,6 +6,12 @@
     public interface IEnigmaSettings
     {
         List<IEnigmaComponent> ComponentList { get; set; }
-        IComponentFactry ComponentFactory { get; set; }
+        IComponentFactory ComponentFactory { get; set; }
+
+        IRotor Rotor1 { get; set; }
+        IRotor Rotor2 { get; set; }
+        IRotor Rotor3 { get; set; }
+        IReflector Reflector { get; set; }
+        IPlugboard Plugboard { get; set; }
     }
 }

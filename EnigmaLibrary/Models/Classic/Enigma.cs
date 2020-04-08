@@ -1,22 +1,16 @@
 ﻿namespace EnigmaLibrary.Models.Classic
 {
     using System;
-    using Caliburn.Micro;
     using EnigmaLibrary.Models.Interfaces;
     using EnigmaLibrary.Models.Interfaces.Components;
 
-    public class Enigma : IEnigma, IHandle<IEnigmaSettings>
+    public class Enigma : IEnigma
     {
-        private readonly IEnigmaEventAggregator _eventAggregator;
         private readonly Func<char, bool, ISignal> _signalFactory;
+        private readonly IEnigmaSettings _enigmaSettings;
 
-        private IEnigmaSettings _enigmaSettings;
-
-        public Enigma(IEnigmaEventAggregator enigmaAggregator, IEnigmaSettings enigmaSettings)
+        public Enigma(IEnigmaSettings enigmaSettings)
         {
-            _eventAggregator = enigmaAggregator;
-            _eventAggregator.Subscribe(this);
-
             _enigmaSettings = enigmaSettings;
             _signalFactory = enigmaSettings.ComponentFactory.SignalFactory;
         }
@@ -30,11 +24,6 @@
             }
 
             return signal.Letter;
-        }
-
-        public void Handle(IEnigmaSettings enigmaSettings)
-        {
-            _enigmaSettings = enigmaSettings;
         }
     }
 }

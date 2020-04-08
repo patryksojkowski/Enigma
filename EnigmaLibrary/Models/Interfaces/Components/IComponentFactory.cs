@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using EnigmaLibrary.Models.Enums;
 
-    public interface IComponentFactry
+    public interface IComponentFactory
     {
         IRotor CreateRotor(RotorType type, RotorSlot slot, int position);
         IReflector CreateReflector(ReflectorType type);

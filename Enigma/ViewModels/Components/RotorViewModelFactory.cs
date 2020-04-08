@@ -6,10 +6,10 @@
 
     public class RotorViewModelFactory
     {
-        private readonly IEnigmaEventAggregator _enigmaAggregator;
+        private readonly IEventAggregator _enigmaAggregator;
         private readonly IComponentFactory _componentFactory;
 
-        public RotorViewModelFactory(IEnigmaEventAggregator enigmaAggregator, IComponentFactory componentFactory)
+        public RotorViewModelFactory(IEventAggregator enigmaAggregator, IComponentFactory componentFactory)
         {
             _enigmaAggregator = enigmaAggregator;
             _componentFactory = componentFactory;
@@ -19,7 +19,5 @@
         {
             return new RotorViewModel(_enigmaAggregator, _componentFactory, Slot);
         }
-
-
     }
 }

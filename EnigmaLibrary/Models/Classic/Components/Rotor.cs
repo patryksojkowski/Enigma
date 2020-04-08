@@ -11,10 +11,10 @@
 
         public Rotor(RotorSlot slot, int position, char[] connections, Func<char, bool, ISignal> signalFactory, RotorType type)
         {
-            Slot = slot;
-            Position = position;
             _connections = connections;
             _signalFactory = signalFactory;
+            Slot = slot;
+            Position = position;
             Type = type;
         }
 

@@ -10,19 +10,19 @@
 
     public class EnigmaSettingsStub : IEnigmaSettings
     {
-        private readonly IEnigmaEventAggregator _eventAggregator;
+        private readonly IEventAggregator _eventAggregator;
 
-        public EnigmaSettingsStub(IEnigmaEventAggregator eventAggregator, IComponentFactry componentFactory)
+        public EnigmaSettingsStub(IEventAggregator eventAggregator, IComponentFactory componentFactory)
         {
             _eventAggregator = eventAggregator;
             ComponentFactory = componentFactory;
             ComponentList = new List<IEnigmaComponent>();
         }
         public List<IEnigmaComponent> ComponentList { get; set; }
-        public IComponentFactry ComponentFactory { get; set; }
+        public IComponentFactory ComponentFactory { get; set; }
     }
 
-    public class ComponentFactoryStub : IComponentFactry
+    public class ComponentFactoryStub : IComponentFactory
     {
         public Func<char, bool, ISignal> SignalFactory => (c, b) => new Signal(c, b);
 

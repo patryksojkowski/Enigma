@@ -6,12 +6,12 @@
 
     public class RotorViewModel
     {
-        private readonly IEnigmaEventAggregator _enigmaAggregator;
+        private readonly IEventAggregator _enigmaAggregator;
         private readonly IComponentFactory _componentFactory;
-        public RotorSlot _slot;
-        public int Positon { get; set; }
+        private RotorSlot _slot;
+        private int _position;
 
-        public RotorViewModel(IEnigmaEventAggregator enigmaAggregator, IComponentFactory componentFactory, RotorSlot slot)
+        public RotorViewModel(IEventAggregator enigmaAggregator, IComponentFactory componentFactory, RotorSlot slot)
         {
             _enigmaAggregator = enigmaAggregator;
             _componentFactory = componentFactory;
@@ -22,7 +22,7 @@
 
         public void ChangeRotor()
         {
-            _enigmaAggregator.Publish(_componentFactory.CreateRotor(RotorType, _slot, Positon));
+            _enigmaAggregator.PublishOnUIThread(_componentFactory.CreateRotor(RotorType, _slot, _position));
         }
     }
 }

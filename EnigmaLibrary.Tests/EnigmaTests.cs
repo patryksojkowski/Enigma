@@ -11,7 +11,7 @@
         public void PassingTest()
         {
             // Arrange
-            var eventAggregator = new EnigmaEventAggregator();
+            var eventAggregator = new EventAggregator();
             var componentFactory = new ComponentFactoryStub();
             var settings = new EnigmaSettings(eventAggregator, componentFactory);
             var enigma = new Enigma(eventAggregator, settings);
@@ -31,7 +31,7 @@
         public void Encrypt_ShouldReturnCharacter(char input, char expected)
         {
             // Arrange
-            var eventAggregator = new EnigmaEventAggregator();
+            var eventAggregator = new EventAggregator();
             var componentFactory = new ComponentFactoryStub();
             var settings = new EnigmaSettingsStub(eventAggregator, componentFactory);
             var enigma = new Enigma(eventAggregator, settings);

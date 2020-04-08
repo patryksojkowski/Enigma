@@ -5,10 +5,10 @@
 
     public class PlugboardViewModel
     {
-        private readonly IEnigmaEventAggregator _enigmaAggregator;
+        private readonly IEventAggregator _enigmaAggregator;
         private readonly IComponentFactory _componentFactory;
 
-        public PlugboardViewModel(IEnigmaEventAggregator enigmaAggregator, IComponentFactory componentFactory)
+        public PlugboardViewModel(IEventAggregator enigmaAggregator, IComponentFactory componentFactory)
         {
             _enigmaAggregator = enigmaAggregator;
             _componentFactory = componentFactory;
@@ -16,7 +16,7 @@
 
         public void ChangePlugboard()
         {
-            _enigmaAggregator.Publish(_componentFactory.CreatePlugboard(null));
+            _enigmaAggregator.PublishOnUIThread(_componentFactory.CreatePlugboard(null));
         }
     }
 }
