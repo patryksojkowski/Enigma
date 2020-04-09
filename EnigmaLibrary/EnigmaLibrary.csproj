@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="Models\Classic\Components\ComponentFactory.cs" />
     <Compile Include="Models\Classic\Components\LetterTranslation.cs" />
     <Compile Include="Models\Classic\Components\Signal.cs" />

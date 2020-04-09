@@ -29,7 +29,6 @@
 
         <!--Row 3-->
         <Label Content="Out:" Grid.Row="3" Grid.Column="1"/>
-        <Button x:Name="Encrypt" Content="Encrypt/Decrypt" Grid.Row="3" Grid.Column="1" Width="100" Height="25"/>
 
         <!--Row 4-->
         <TextBlock x:Name="Output" Grid.Row="4" Grid.Column="1"/>

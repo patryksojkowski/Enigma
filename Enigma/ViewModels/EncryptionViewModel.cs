@@ -2,17 +2,18 @@
 {
     using Caliburn.Micro;
     using EnigmaLibrary.Models.Interfaces;
-    using System.Text;
 
     public class EncryptionViewModel : Screen
     {
-        private string _input;
+        private string _input = string.Empty;
         private string _output;
 
         public EncryptionViewModel(IEnigma enigma)
         {
             Enigma = enigma;
         }
+
+        public IEnigma Enigma { get; set; }
 
         public string Input
         {
@@ -22,8 +23,8 @@
             }
             set
             {
+                HandleInputChange(_input, value);
                 _input = value;
-                NotifyOfPropertyChange(() => Input);
             }
         }
 
@@ -40,24 +41,22 @@
             }
         }
 
-        public IEnigma Enigma { get; set; }
-
-
-        public void Encrypt(string input)
+        private void HandleInputChange(string oldValue, string newValue)
         {
-            var sb = new StringBuilder();
-            foreach(var c in input)
+            if (oldValue.Length < newValue.Length)
             {
-                var processed = Enigma.Encrypt(c);
-                sb.Append(processed);
+                var addedSubstring = newValue.Substring(oldValue.Length);
+                foreach (var c in addedSubstring)
+                {
+                    var x = Enigma.Encrypt(c);
+                    Output += x;
+                }
+
             }
-
-            Output = sb.ToString();
-        }
-
-        public bool CanEncrypt(string input)
-        {
-            return !string.IsNullOrEmpty(input);
+            else if (oldValue.Length > newValue.Length)
+            {
+                Output = Output.Remove(newValue.Length);
+            }
         }
     }
 }
