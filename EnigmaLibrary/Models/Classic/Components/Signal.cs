@@ -1,15 +1,18 @@
 ﻿namespace EnigmaLibrary.Models.Classic.Components
 {
+    using EnigmaLibrary.Models.Enums;
     using EnigmaLibrary.Models.Interfaces.Components;
 
     public class Signal : ISignal
     {
-        public Signal(char input, bool step)
+        public Signal(int value, bool step, SignalDirection direction)
         {
-            Letter = input;
+            Value = value;
             Step = step;
+            Direction = direction;
         }
-        public char Letter { get; set; }
+        public int Value { get; set; }
         public bool Step { get; set; }
+        public SignalDirection Direction { get; set; }
     }
 }

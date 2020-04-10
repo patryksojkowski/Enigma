@@ -48,7 +48,11 @@
                 var addedSubstring = newValue.Substring(oldValue.Length);
                 foreach (var c in addedSubstring)
                 {
-                    var x = Enigma.Encrypt(c);
+                    var x = c;
+                    if(char.IsLetter(c))
+                    {
+                        x = Enigma.Encrypt(c);
+                    }
                     Output += x;
                 }
 

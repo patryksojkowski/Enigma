@@ -1,5 +1,6 @@
 ﻿namespace EnigmaLibrary.Tests
 {
+    using EnigmaLibrary.Helpers;
     using EnigmaLibrary.Models.Classic.Components;
     using EnigmaLibrary.Models.Enums;
     using Xunit;
@@ -10,16 +11,18 @@
         [InlineData('P', 'C', true, false, ReflectorType.C)]
         [InlineData('Z', 'S', false, false, ReflectorType.BD)]
         [InlineData('H', 'K', false, false, ReflectorType.CD)]
-        public void Process_GetCorrectOutput(char input, char expectedLetter, bool step, bool expectedStep, ReflectorType type)
+        public void Process_GetCorrectOutput(char inputLetter, char expectedLetter, bool step, bool expectedStep, ReflectorType type)
         {
             // Arrange
             var factory = new ComponentFactory();
             var reflector = factory.CreateReflector(type);
-            var signal = factory.SignalFactory(input, step);
+            var inputValue = CommonHelper.LetterToNumber(inputLetter);
+            var signal = factory.CreateSignal(inputValue, step, SignalDirection.In);
 
             // Act
             var resultSignal = reflector.Process(signal);
-            var resultLetter = resultSignal.Letter;
+            var resultValue = resultSignal.Value;
+            var resultLetter = CommonHelper.NumberToLetter(resultValue);
             var resultStep = resultSignal.Step;
 
             // Assert

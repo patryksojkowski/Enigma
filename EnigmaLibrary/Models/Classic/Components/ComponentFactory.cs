@@ -14,11 +14,8 @@
         private readonly Dictionary<ReflectorType, Dictionary<char, char>> _reflectorConnections = new Dictionary<ReflectorType, Dictionary<char, char>>();
         private readonly Dictionary<RotorType, char[]> _rotorConnections = new Dictionary<RotorType, char[]>();
 
-        public Func<char, bool, ISignal> SignalFactory { get; }
-
         public ComponentFactory()
         {
-            SignalFactory = (c, b) => CreateSignal(c, b);
 
             var reflectorJson = JsonHelper.GetJsonContent(Directory.GetCurrentDirectory() + @"\Config\Reflector.json");
             _reflectorConnections = JsonConvert.DeserializeObject<Dictionary<ReflectorType, Dictionary<char, char>>>(reflectorJson);
@@ -33,23 +30,24 @@
             {
                 plugboardConnections = new Dictionary<char, char>();
             }
-            return new Plugboard(plugboardConnections, SignalFactory);
+            return new Plugboard(plugboardConnections, this);
         }
 
         public IReflector CreateReflector(ReflectorType type)
         {
             var aggregator = CreateEventAggregator();
-            return new Reflector(_reflectorConnections[type], SignalFactory, type, aggregator, CreateTranslation);
+            return new Reflector(_reflectorConnections[type], type, aggregator, this);
         }
 
         public IRotor CreateRotor(RotorType type, RotorSlot slot, int position)
         {
-            return new Rotor(slot, position, _rotorConnections[type], SignalFactory, type);
+            var aggregator = CreateEventAggregator();
+            return new Rotor(slot, position, _rotorConnections[type], type, aggregator, this);
         }
 
-        private ISignal CreateSignal(char input, bool step)
+        public ISignal CreateSignal(int input, bool step, SignalDirection direction)
         {
-            return new Signal(input, step);
+            return new Signal(input, step, direction);
         }
 
         private IEventAggregator CreateEventAggregator()
@@ -57,9 +55,9 @@
             return new EventAggregator();
         }
 
-        private ILetterTranslation CreateTranslation(char from, char to)
+        public ILetterTranslation CreateTranslation(char from, char to, SignalDirection direction)
         {
-            return new LetterTranslation(from, to);
+            return new LetterTranslation(from, to, direction);
         }
     }
 }

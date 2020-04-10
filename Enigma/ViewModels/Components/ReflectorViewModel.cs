@@ -9,20 +9,21 @@
     using EnigmaLibrary.Models.Interfaces;
     using EnigmaLibrary.Models.Interfaces.Components;
     using EnigmaUI.ViewModels.Helpers;
+    using EnigmaUI.ViewModels.Interfaces;
 
     public class ReflectorViewModel : PropertyChangedBase
     {
-        private readonly ReflectorController _reflectorController;
+        private readonly ReflectorController _componentController;
         private readonly ReflectorViewController _viewController;
-        private SingleAlphabetViewModel _alphabetViewModel;
+        private IAlphabetViewModel _alphabetViewModel;
 
         public ReflectorViewModel(IEventAggregator enigmaAggregator, IComponentFactory componentFactory, IEnigmaSettings enigmaSettings, HelpersViewModelFactory helpersViewModelFactory)
         {
             Types = Enum.GetValues(typeof(ReflectorType)).Cast<ReflectorType>();
 
-            _reflectorController = new ReflectorController(enigmaSettings, componentFactory, enigmaAggregator);
+            _componentController = new ReflectorController(enigmaSettings, componentFactory, enigmaAggregator);
 
-            var reflectorAggregator = _reflectorController.GetAggregator();
+            var reflectorAggregator = _componentController.GetAggregator();
 
             _viewController = new ReflectorViewController(reflectorAggregator, helpersViewModelFactory);
 
@@ -31,7 +32,7 @@
 
         public IEnumerable<ReflectorType> Types { get; set; }
 
-        public SingleAlphabetViewModel AlphabetViewModel
+        public IAlphabetViewModel AlphabetViewModel
         {
             get
             {
@@ -47,9 +48,9 @@
         public void ChangeReflector(object sender, SelectionChangedEventArgs args)
         {
             var type = (ReflectorType)((ComboBox)sender).SelectedItem;
-            _reflectorController.ChangeReflector(type);
+            _componentController.ChangeReflector(type);
 
-            var reflectorAggregator = _reflectorController.GetAggregator();
+            var reflectorAggregator = _componentController.GetAggregator();
 
             _viewController.SetReflectorAggregator(reflectorAggregator);
         }
@@ -86,15 +87,15 @@
         private class ReflectorViewController
         {
             private readonly HelpersViewModelFactory _helpersViewModelFactory;
-            private readonly SingleAlphabetViewModel _alphabetViewModel;
+            private readonly IAlphabetViewModel _alphabetViewModel;
 
             public ReflectorViewController(IEventAggregator reflectorAggregator, HelpersViewModelFactory helpersViewModelFactory)
             {
                 _helpersViewModelFactory = helpersViewModelFactory;
-                _alphabetViewModel = _helpersViewModelFactory.CreateAlphabetViewModel(reflectorAggregator);
+                _alphabetViewModel = _helpersViewModelFactory.CreateAlphabetViewModel<SingleAlphabetViewModel>(reflectorAggregator);
             }
 
-            public SingleAlphabetViewModel GetAlphabetViewModel()
+            public IAlphabetViewModel GetAlphabetViewModel()
             {
                 return _alphabetViewModel;
             }

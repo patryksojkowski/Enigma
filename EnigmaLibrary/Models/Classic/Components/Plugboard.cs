@@ -2,29 +2,35 @@
 {
     using System;
     using System.Collections.Generic;
+    using EnigmaLibrary.Helpers;
     using EnigmaLibrary.Models.Interfaces.Components;
 
     public class Plugboard : IPlugboard
     {
-        private readonly Func<char, bool, ISignal> _signalFactory;
+        private readonly IComponentFactory _componentFactory;
         public Dictionary<char, char> Connections { get; set; }
 
-        public Plugboard(Dictionary<char, char> connections, Func<char, bool, ISignal> signalFactory)
+        public Plugboard(Dictionary<char, char> connections, IComponentFactory componentFactory)
         {
-            _signalFactory = signalFactory;
+            _componentFactory = componentFactory;
 
             Connections = connections;
         }
 
-        public ISignal Process(ISignal input)
+        public ISignal Process(ISignal signal)
         {
-            var letter = input.Letter;
-            var output = letter;
-            if (Connections.ContainsKey(letter))
+            var inputValue = signal.Value;
+
+            var inputLetter = CommonHelper.NumberToLetter(inputValue);
+            var outputLetter = inputLetter;
+            if (Connections.ContainsKey(inputLetter))
             {
-                output = Connections[letter];
+                outputLetter = Connections[inputLetter];
             }
-            return _signalFactory(output, true);
+
+            var resultValue = CommonHelper.LetterToNumber(outputLetter);
+
+            return _componentFactory.CreateSignal(resultValue, true, signal.Direction);
         }
 
         public void AddConnection(char from, char to)

@@ -2,7 +2,9 @@
 {
     using System.Collections;
     using System.Collections.Generic;
+    using EnigmaLibrary.Helpers;
     using EnigmaLibrary.Models.Classic.Components;
+    using EnigmaLibrary.Models.Enums;
     using Xunit;
 
     public class PlugboardTests
@@ -15,11 +17,7 @@
                 {
                     new Dictionary<char, char>
                     {
-                        { 'A', 'B' },
-                        { 'D', 'C' },
-                        { 'S', 'Z' },
-                        { 'E', 'Q' },
-                        { 'W', 'G' },
+                        { 'A', 'B' }, { 'D', 'C' }, { 'S', 'Z' }, { 'B', 'A' }, { 'C', 'D' }, { 'Z', 'S' }
                     },
                     'A',
                     'B',
@@ -30,11 +28,7 @@
                 {
                     new Dictionary<char, char>
                     {
-                        { 'A', 'B' },
-                        { 'D', 'C' },
-                        { 'S', 'Z' },
-                        { 'E', 'Q' },
-                        { 'W', 'G' },
+                        { 'A', 'B' }, { 'D', 'C' }, { 'S', 'Z' }, { 'B', 'A' }, { 'C', 'D' }, { 'Z', 'S' }
                     },
                     'Z',
                     'S',
@@ -45,11 +39,7 @@
                 {
                     new Dictionary<char, char>
                     {
-                        { 'A', 'B' },
-                        { 'D', 'C' },
-                        { 'S', 'Z' },
-                        { 'E', 'Q' },
-                        { 'W', 'G' },
+                        { 'A', 'B' }, { 'D', 'C' }, { 'S', 'Z' }, { 'B', 'A' }, { 'C', 'D' }, { 'Z', 'S' }
                     },
                     'F',
                     'F',
@@ -71,16 +61,18 @@
 
         [Theory]
         [ClassData(typeof(ProcessTestData))]
-        public void Process_GetCorrectOutput(Dictionary<char, char> connections, char input, char expectedLetter, bool step, bool expectedStep)
+        public void Process_GetCorrectOutput(Dictionary<char, char> connections, char inputLetter, char expectedLetter, bool step, bool expectedStep)
         {
             // Arrange
             var factory = new ComponentFactory();
             var plugboard = factory.CreatePlugboard(connections);
-            var signal = factory.SignalFactory(input, step);
+            var inputValue = CommonHelper.LetterToNumber(inputLetter);
+            var signal = factory.CreateSignal(inputValue, step, SignalDirection.In);
 
             // Act
             var resultSignal = plugboard.Process(signal);
-            var resultLetter = resultSignal.Letter;
+            var resultValue = resultSignal.Value;
+            var resultLetter = CommonHelper.NumberToLetter(resultValue);
             var resultStep = resultSignal.Step;
 
             // Assert

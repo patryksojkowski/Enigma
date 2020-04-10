@@ -4,9 +4,27 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EnigmaUI.Views"
+             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" 
              d:DesignHeight="160" d:DesignWidth="60">
     <Grid>
-        <Button x:Name="ChangeRotor" Content="Change" Height="25"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        
+        <!--Row 0-->
+        <ComboBox x:Name="RotorTypes" Width="50"  SelectedIndex="0" cal:Message.Attach="[Event SelectionChanged]=[Action ChangeRotor($source, $eventargs)]"/>
+        
+        <!--Row 1-->
+        <Button x:Name="MoveUp" Grid.Row="1" Width="50" VerticalAlignment="Top" Height="25" FontFamily="Marlett" FontSize="20" Content="5"/>
+        
+        <!--Row 2-->
+        <ContentControl x:Name="AlphabetViewModel" Grid.Row="2"/>
+        
+        <!--Row 3-->
+        <Button x:Name="MoveDown" Grid.Row="3" Width="50" VerticalAlignment="Bottom" FontFamily="Marlett" FontSize="20" Content="6"/>
     </Grid>
 </UserControl>

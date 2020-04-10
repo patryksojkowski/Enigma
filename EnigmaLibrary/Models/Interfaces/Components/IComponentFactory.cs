@@ -9,6 +9,7 @@
         IRotor CreateRotor(RotorType type, RotorSlot slot, int position);
         IReflector CreateReflector(ReflectorType type);
         IPlugboard CreatePlugboard(Dictionary<char, char> connections);
-        Func<char, bool, ISignal> SignalFactory { get; }
+        ILetterTranslation CreateTranslation(char from, char to, SignalDirection direction);
+        ISignal CreateSignal(int value, bool step, SignalDirection direction);
     }
 }

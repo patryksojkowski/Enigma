@@ -1,12 +1,16 @@
 ﻿namespace EnigmaLibrary.Models.Interfaces.Components
 {
+    using Caliburn.Micro;
     using EnigmaLibrary.Models.Enums;
 
     public interface IRotor : IEnigmaComponent
     {
         RotorSlot Slot { get; set; }
-        int Position { get; set; }
+        int PositionShift { get; }
         RotorType Type { get; set; }
-        void Move(int steps);
+        bool Move(int steps);
+        IEventAggregator RotorAggregator { get; }
+        char [] Connections { get; }
+
     }
 }

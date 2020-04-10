@@ -17,19 +17,19 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
-            <RowDefinition Height="2*"/>
+            <RowDefinition Height="650"/>
             <RowDefinition/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
         
         <!--Row 1-->
-        <ContentControl Grid.Row="1" Grid.Column="1" x:Name="ReflectorViewModel"/>
-        <ContentControl Grid.Row="1" Grid.Column="2" x:Name="Rotor3ViewModel"/>
-        <ContentControl Grid.Row="1" Grid.Column="3" x:Name="Rotor2ViewModel"/>
+        <ContentControl Grid.Row="1" Grid.Column="1" VerticalAlignment="Top" x:Name="ReflectorViewModel"/>
+        <ContentControl Grid.Row="1" Grid.Column="2" VerticalAlignment="Top" x:Name="Rotor3ViewModel"/>
+        <ContentControl Grid.Row="1" Grid.Column="3" VerticalAlignment="Top" x:Name="Rotor2ViewModel"/>
 
-        <ContentControl Grid.Row="1" Grid.Column="4" x:Name="Rotor1ViewModel"/>
+        <ContentControl Grid.Row="1" Grid.Column="4" VerticalAlignment="Top" x:Name="Rotor1ViewModel"/>
         
         <!--Row 2-->
-        <ContentControl Grid.Row="2" Grid.ColumnSpan="4" x:Name="PlugboardViewModel"/>
+        <!--<ContentControl Grid.Row="2" Grid.ColumnSpan="4" VerticalAlignment="Top" x:Name="PlugboardViewModel"/>-->
     </Grid>
 </UserControl>

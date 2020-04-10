@@ -1,6 +1,8 @@
 ﻿namespace EnigmaUI.ViewModels.Helpers
 {
     using Caliburn.Micro;
+    using EnigmaUI.ViewModels.Interfaces;
+    using System;
 
     public class HelpersViewModelFactory
     {
@@ -8,9 +10,17 @@
         {
             return new LetterViewModel(letter);
         }
-        public SingleAlphabetViewModel CreateAlphabetViewModel(IEventAggregator eventAggregator)
+
+        public IAlphabetViewModel CreateAlphabetViewModel<T>(IEventAggregator eventAggregator, char[] connections = null) where T : AlphabetViewModelBase, new()
         {
-            return new SingleAlphabetViewModel(this, eventAggregator);
+            var viewModel = new T()
+            {
+                EventAggregator = eventAggregator,
+                HelpersViewModelFactory = this,
+                Connections = connections,
+            };
+            viewModel.Initialize();
+            return viewModel;
         }
     }
 }

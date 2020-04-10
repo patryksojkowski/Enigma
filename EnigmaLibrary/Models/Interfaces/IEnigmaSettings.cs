@@ -1,6 +1,7 @@
 ﻿namespace EnigmaLibrary.Models.Interfaces
 {
     using System.Collections.Generic;
+    using EnigmaLibrary.Models.Enums;
     using EnigmaLibrary.Models.Interfaces.Components;
 
     public interface IEnigmaSettings
@@ -13,5 +14,7 @@
         IRotor Rotor3 { get; set; }
         IReflector Reflector { get; set; }
         IPlugboard Plugboard { get; set; }
+
+        IRotor GetRotor(RotorSlot slot);
     }
 }

@@ -7,6 +7,7 @@
     using EnigmaLibrary.Models.Interfaces.Components;
     using EnigmaLibrary.Models.Enums;
     using Newtonsoft.Json;
+    using System;
 
     /// <summary>
     /// Classic EnigmaSettings with one Plugboard attached to sequence of three Rotors and Reflector.
@@ -25,40 +26,42 @@
             var settingsJson = File.ReadAllText(Directory.GetCurrentDirectory() + @"\Config\SavedSettings.json");
             var savedSettings = JsonConvert.DeserializeObject<SavedSettings>(settingsJson);
 
-            AssignProperties(savedSettings);
-            InitializeComponentList();
+            LoadSettings(savedSettings);
+        }
+        
 
-            void AssignProperties(SavedSettings settings)
+        public void LoadSettings(SavedSettings settings)
+        {
+            if (settings is null)
             {
-                if (settings != null)
-                {
-                    Rotor1 = ComponentFactory.CreateRotor(settings.Slot1.RotorType, RotorSlot.One, settings.Slot1.Position);
-                    Rotor2 = ComponentFactory.CreateRotor(settings.Slot2.RotorType, RotorSlot.Two, settings.Slot2.Position);
-                    Rotor3 = ComponentFactory.CreateRotor(settings.Slot3.RotorType, RotorSlot.Three, settings.Slot3.Position);
-
-                    Reflector = ComponentFactory.CreateReflector(settings.ReflectorType);
-                    Plugboard = ComponentFactory.CreatePlugboard(settings.PlugboardConnections);
-                }
-                else
-                {
-                    Rotor1 = ComponentFactory.CreateRotor(RotorType.I, RotorSlot.One, 0);
-                    Rotor2 = ComponentFactory.CreateRotor(RotorType.II, RotorSlot.Two, 0);
-                    Rotor3 = ComponentFactory.CreateRotor(RotorType.III, RotorSlot.Three, 0);
-
-                    Reflector = ComponentFactory.CreateReflector(ReflectorType.B);
-                    Plugboard = ComponentFactory.CreatePlugboard(null);
-                }
-
-                _eventAggregator.PublishOnUIThread(Rotor1);
-                _eventAggregator.PublishOnUIThread(Rotor2);
-                _eventAggregator.PublishOnUIThread(Rotor3);
-                _eventAggregator.PublishOnUIThread(Reflector);
-                _eventAggregator.PublishOnUIThread(Plugboard);
+                LoadDefaultSettings();
             }
-
-            void InitializeComponentList()
+            else
             {
-                ComponentList = new List<IEnigmaComponent>
+                Rotor1 = ComponentFactory.CreateRotor(settings.Slot1.RotorType, RotorSlot.One, settings.Slot1.Position);
+                Rotor2 = ComponentFactory.CreateRotor(settings.Slot2.RotorType, RotorSlot.Two, settings.Slot2.Position);
+                Rotor3 = ComponentFactory.CreateRotor(settings.Slot3.RotorType, RotorSlot.Three, settings.Slot3.Position);
+
+                Reflector = ComponentFactory.CreateReflector(settings.ReflectorType);
+                Plugboard = ComponentFactory.CreatePlugboard(settings.PlugboardConnections);
+            }
+            
+            InitializeComponentList();
+        }
+
+        public void LoadDefaultSettings()
+        {
+            Rotor1 = ComponentFactory.CreateRotor(RotorType.I, RotorSlot.One, 0);
+            Rotor2 = ComponentFactory.CreateRotor(RotorType.II, RotorSlot.Two, 0);
+            Rotor3 = ComponentFactory.CreateRotor(RotorType.III, RotorSlot.Three, 0);
+
+            Reflector = ComponentFactory.CreateReflector(ReflectorType.B);
+            Plugboard = ComponentFactory.CreatePlugboard(null);
+        }
+
+        private void InitializeComponentList()
+        {
+            ComponentList = new List<IEnigmaComponent>
                 {
                     Plugboard,
                     Rotor1,
@@ -70,7 +73,6 @@
                     Rotor1,
                     Plugboard
                 };
-            }
         }
 
         ~EnigmaSettings()
@@ -82,19 +84,19 @@
 
                 Slot1 = new SavedSettings.Slot
                 {
-                    Position = Rotor1.Position,
+                    Position = Rotor1.PositionShift,
                     RotorType = Rotor1.Type
                 },
 
                 Slot2 = new SavedSettings.Slot
                 {
-                    Position = Rotor2.Position,
+                    Position = Rotor2.PositionShift,
                     RotorType = Rotor2.Type
                 },
 
                 Slot3 = new SavedSettings.Slot
                 {
-                    Position = Rotor3.Position,
+                    Position = Rotor3.PositionShift,
                     RotorType = Rotor3.Type
                 },
             };
@@ -110,6 +112,14 @@
         public List<IEnigmaComponent> ComponentList { get; set; }
 
         public IComponentFactory ComponentFactory { get; set; }
+
+        public IRotor GetRotor(RotorSlot slot) => slot switch
+        {
+            RotorSlot.One => Rotor1,
+            RotorSlot.Two => Rotor2,
+            RotorSlot.Three => Rotor3,
+            _ => throw new ArgumentOutOfRangeException()
+        };
 
         public void Handle(IRotor rotor)
         {
@@ -139,7 +149,7 @@
             Plugboard = plugboard;
         }
 
-        private class SavedSettings
+        public class SavedSettings
         {
             public ReflectorType ReflectorType { get; set; }
             public Slot Slot1 { get; set; }
