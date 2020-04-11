@@ -11,5 +11,6 @@
         IConnectionDrawer ConnectionDrawer { get; set; }
         HelpersViewModelFactory HelpersViewModelFactory { get; set; }
         char[] Connections { get; set; }
+        int PositionShift { get; set; }
     }
 }

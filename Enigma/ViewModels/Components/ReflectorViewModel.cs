@@ -24,6 +24,7 @@
             _componentController = new ReflectorController(enigmaSettings, componentFactory, enigmaAggregator);
 
             var reflectorAggregator = _componentController.GetAggregator();
+            ReflectorType = _componentController.GetComponentType();
 
             _viewController = new ReflectorViewController(reflectorAggregator, helpersViewModelFactory);
 
@@ -31,6 +32,7 @@
         }
 
         public IEnumerable<ReflectorType> Types { get; set; }
+        public ReflectorType ReflectorType { get; set; }
 
         public IAlphabetViewModel AlphabetViewModel
         {
@@ -48,6 +50,7 @@
         public void ChangeReflector(object sender, SelectionChangedEventArgs args)
         {
             var type = (ReflectorType)((ComboBox)sender).SelectedItem;
+
             _componentController.ChangeReflector(type);
 
             var reflectorAggregator = _componentController.GetAggregator();
@@ -82,6 +85,11 @@
             {
                 return _reflector.ReflectorAggregator;
             }
+
+            public ReflectorType GetComponentType()
+            {
+                return _reflector.Type;
+            }
         }
 
         private class ReflectorViewController
@@ -92,7 +100,7 @@
             public ReflectorViewController(IEventAggregator reflectorAggregator, HelpersViewModelFactory helpersViewModelFactory)
             {
                 _helpersViewModelFactory = helpersViewModelFactory;
-                _alphabetViewModel = _helpersViewModelFactory.CreateAlphabetViewModel<SingleAlphabetViewModel>(reflectorAggregator);
+                _alphabetViewModel = _helpersViewModelFactory.CreateAlphabetViewModel<SingleAlphabetViewModel>(reflectorAggregator, 0);
             }
 
             public IAlphabetViewModel GetAlphabetViewModel()

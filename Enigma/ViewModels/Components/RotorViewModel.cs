@@ -24,10 +24,14 @@
 
             var componentAggregator = _componentController.GetAggregator();
             var connections = _componentController.GetConnections();
-            _viewController = new RotorViewController(componentAggregator, helpersViewModelFactory, connections);
+            var positionShift = _componentController.GetPositionShift();
+            RotorType = _componentController.GetRotorType();
+
+            _viewController = new RotorViewController(componentAggregator, helpersViewModelFactory, connections, positionShift);
             AlphabetViewModel = _viewController.GetAlphabetView();
         }
 
+        public RotorType RotorType { get; set; }
         public IEnumerable<RotorType> RotorTypes { get; set; }
         public IAlphabetViewModel AlphabetViewModel { get; set; }
 
@@ -39,19 +43,9 @@
             var rotorAggregator = _componentController.GetAggregator();
             var connections = _componentController.GetConnections();
 
-            // handle view
             _viewController.SetAggregator(rotorAggregator);
             _viewController.SetConnections(connections);
 
-        }
-
-        public bool CanMoveUp()
-        {
-            return false;
-        }
-        public bool CanMoveDown()
-        {
-            return false;
         }
 
         public void MoveUp()
@@ -107,6 +101,15 @@
             {
                 return _rotor.Connections;
             }
+
+            public RotorType GetRotorType()
+            {
+                return _rotor.Type;
+            }
+            public int GetPositionShift()
+            {
+                return _rotor.PositionShift;
+            }
         }
 
         private class RotorViewController
@@ -115,11 +118,11 @@
             private readonly IAlphabetViewModel _alphabetViewModel;
             private char[] _connections;
 
-            public RotorViewController(IEventAggregator componentAggregator, HelpersViewModelFactory helpersViewModelFactory, char[] connections)
+            public RotorViewController(IEventAggregator componentAggregator, HelpersViewModelFactory helpersViewModelFactory, char[] connections, int positionShift)
             {
                 _helpersViewModelFactory = helpersViewModelFactory;
                 _connections = connections;
-                _alphabetViewModel = _helpersViewModelFactory.CreateAlphabetViewModel<DoubleAlphabetViewModel>(componentAggregator, connections);
+                _alphabetViewModel = _helpersViewModelFactory.CreateAlphabetViewModel<DoubleAlphabetViewModel>(componentAggregator, positionShift, connections);
             }
 
             public  IAlphabetViewModel GetAlphabetView()

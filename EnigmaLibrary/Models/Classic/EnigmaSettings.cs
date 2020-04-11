@@ -1,13 +1,13 @@
 ﻿namespace EnigmaLibrary.Models.Classic
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     using Caliburn.Micro;
+    using EnigmaLibrary.Models.Enums;
     using EnigmaLibrary.Models.Interfaces;
     using EnigmaLibrary.Models.Interfaces.Components;
-    using EnigmaLibrary.Models.Enums;
     using Newtonsoft.Json;
-    using System;
 
     /// <summary>
     /// Classic EnigmaSettings with one Plugboard attached to sequence of three Rotors and Reflector.
@@ -34,6 +34,7 @@
         {
             if (settings is null)
             {
+                LoadDefaultSettings();
                 LoadDefaultSettings();
             }
             else

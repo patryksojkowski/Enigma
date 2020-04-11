@@ -38,12 +38,15 @@
                 nextStep = true;
             }
 
+            var stepMessage = _componentFactory.CreateRotorStepMessage(steps);
+            RotorAggregator.PublishOnUIThread(stepMessage);
+
             PositionShift = CommonHelper.To0_25Range(PositionShift);
 
             return nextStep;
         }
 
-        public ISignal Process(ISignal signal) // S = 18
+        public ISignal Process(ISignal signal)
         {
             bool nextStep = false;
 
@@ -52,30 +55,28 @@
                 nextStep = Move(1);
             }
 
-            var inputValue = signal.Value; // 18
-            var shiftedInput = AddShift(inputValue); // 18 + 7 = 25
+            var inputValue = signal.Value;
+            var shiftedInput = AddShift(inputValue);
 
-            // translation
             char inputLetter, outputLetter;
 
-            if  (signal.Direction == SignalDirection.In)
+            if  (signal.Direction == SignalDirection.In) // P()
             {
-                inputLetter = CommonHelper.NumberToLetter(shiftedInput); // 25 = Z
-                outputLetter = Connections[shiftedInput]; // Conn[25] = E
+                inputLetter = CommonHelper.NumberToLetter(shiftedInput);
+                outputLetter = Connections[shiftedInput];
             }
-            else
+            else // P^(-1)
             {
                 inputLetter = CommonHelper.NumberToLetter(shiftedInput);
                 var outputPosition = Array.IndexOf(Connections, inputLetter);
                 outputLetter = CommonHelper.NumberToLetter(outputPosition);
             }
 
-            var translation = _componentFactory.CreateTranslation(inputLetter, outputLetter, signal.Direction); // Z -> E
+            var translation = _componentFactory.CreateTranslation(inputLetter, outputLetter, signal.Direction);
             RotorAggregator.PublishOnUIThread(translation);
 
-            // - remove position shift
-            var shiftedOutput = CommonHelper.LetterToNumber(outputLetter); // 4
-            var resultValue = RemoveShift(shiftedOutput); // 4 - 7 = -3 = 22
+            var shiftedOutput = CommonHelper.LetterToNumber(outputLetter);
+            var resultValue = RemoveShift(shiftedOutput);
 
             return _componentFactory.CreateSignal(resultValue, nextStep, signal.Direction);
         }

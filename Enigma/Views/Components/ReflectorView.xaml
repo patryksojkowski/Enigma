@@ -13,7 +13,7 @@
             <RowDefinition Height="60"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ComboBox x:Name="Types" Width="50" Height="25" SelectedIndex="0" cal:Message.Attach="[Event SelectionChanged]=[Action ChangeReflector($source, $eventargs)]"/>
+        <ComboBox x:Name="Types" Width="50" Height="25" SelectedItem="{Binding ReflectorType, Mode=TwoWay}" cal:Message.Attach="[Event SelectionChanged]=[Action ChangeReflector($source, $eventargs)]"/>
         <ContentControl Grid.Row="1" x:Name="AlphabetViewModel"/>
     </Grid>
 </UserControl>

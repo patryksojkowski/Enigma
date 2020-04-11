@@ -34,6 +34,8 @@
             }
         }
 
+        public int PositionShift { get; set; }
+
         public void AttachView(object view, object context = null)
         {
             _view = view;

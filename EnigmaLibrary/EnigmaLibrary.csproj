@@ -62,6 +62,7 @@
     <Compile Include="Helpers\JsonHelper.cs" />
     <Compile Include="Models\Classic\Components\ComponentFactory.cs" />
     <Compile Include="Models\Classic\Components\LetterTranslation.cs" />
+    <Compile Include="Models\Classic\Components\RotorStepMessage.cs" />
     <Compile Include="Models\Classic\Components\Signal.cs" />
     <Compile Include="Models\Enums\ReflectorType.cs" />
     <Compile Include="Models\Enums\RotorType.cs" />

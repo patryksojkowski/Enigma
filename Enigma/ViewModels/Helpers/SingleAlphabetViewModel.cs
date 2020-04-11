@@ -4,12 +4,12 @@
     using System.Linq;
     using System.Windows.Controls;
     using Caliburn.Micro;
+    using EnigmaLibrary.Helpers;
     using EnigmaLibrary.Models.Interfaces.Components;
-    using EnigmaUI.Views.Helpers;
+    using EnigmaUI.Drawers;
     using EnigmaUI.Extensions;
     using EnigmaUI.ViewModels.Interfaces;
-    using EnigmaUI.Helpers;
-    using EnigmaUI.Drawers;
+    using EnigmaUI.Views.Helpers;
 
     public class SingleAlphabetViewModel : AlphabetViewModelBase, IAlphabetViewModel, IViewAware, IHandle<ILetterTranslation>
     {
@@ -19,7 +19,7 @@
         {
             base.Initialize();
             
-            foreach (var letter in AlphabetHelper.GetAlphabet())
+            foreach (var letter in CommonHelper.GetAlphabet())
             {
                 var letterViewModel = HelpersViewModelFactory.CreateLetter(letter);
                 LetterViewModels.Add(letterViewModel);
@@ -35,7 +35,7 @@
             var fromView = LetterViewModels.First(vm => vm.Letter == translation.Input).GetView() as LetterView;
             var toView = LetterViewModels.First(vm => vm.Letter == translation.Result).GetView() as LetterView;
 
-            ConnectionDrawer.Draw(grid, fromView, toView);
+            ConnectionDrawer.Draw(grid, fromView, toView, translation.Direction);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿namespace EnigmaLibrary.Models.Classic.Components
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using Caliburn.Micro;
@@ -58,6 +57,11 @@
         public ILetterTranslation CreateTranslation(char from, char to, SignalDirection direction)
         {
             return new LetterTranslation(from, to, direction);
+        }
+
+        public RotorStepMessage CreateRotorStepMessage(int step)
+        {
+            return new RotorStepMessage(step);
         }
     }
 }

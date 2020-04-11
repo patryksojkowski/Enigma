@@ -25,13 +25,13 @@
         <Label Content="In:" Grid.Row="1" Grid.Column="1"/>
         
         <!--Row 2-->
-        <TextBox x:Name="Input" Grid.Row="2" Grid.Column="1"/>
+        <TextBox x:Name="Input" Grid.Row="2" Grid.Column="1" TextWrapping="Wrap" MaxLength="1000"/>
 
         <!--Row 3-->
         <Label Content="Out:" Grid.Row="3" Grid.Column="1"/>
 
         <!--Row 4-->
-        <TextBlock x:Name="Output" Grid.Row="4" Grid.Column="1"/>
+        <TextBlock x:Name="Output" Grid.Row="4" Grid.Column="1" TextWrapping="Wrap"/>
 
     </Grid>
 </UserControl>

@@ -11,13 +11,14 @@
             return new LetterViewModel(letter);
         }
 
-        public IAlphabetViewModel CreateAlphabetViewModel<T>(IEventAggregator eventAggregator, char[] connections = null) where T : AlphabetViewModelBase, new()
+        public IAlphabetViewModel CreateAlphabetViewModel<T>(IEventAggregator eventAggregator, int positionShift, char[] connections = null) where T : AlphabetViewModelBase, new()
         {
             var viewModel = new T()
             {
                 EventAggregator = eventAggregator,
                 HelpersViewModelFactory = this,
                 Connections = connections,
+                PositionShift = positionShift,
             };
             viewModel.Initialize();
             return viewModel;

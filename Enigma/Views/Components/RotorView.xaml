@@ -16,7 +16,7 @@
         </Grid.RowDefinitions>
         
         <!--Row 0-->
-        <ComboBox x:Name="RotorTypes" Width="50"  SelectedIndex="0" cal:Message.Attach="[Event SelectionChanged]=[Action ChangeRotor($source, $eventargs)]"/>
+        <ComboBox x:Name="RotorTypes" Width="50" SelectedItem="{Binding RotorType}" cal:Message.Attach="[Event SelectionChanged]=[Action ChangeRotor($source, $eventargs)]"/>
         
         <!--Row 1-->
         <Button x:Name="MoveUp" Grid.Row="1" Width="50" VerticalAlignment="Top" Height="25" FontFamily="Marlett" FontSize="20" Content="5"/>

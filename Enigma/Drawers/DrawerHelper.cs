@@ -1,5 +1,6 @@
 ﻿namespace EnigmaUI.Drawers
 {
+    using System;
     using System.Windows;
     using System.Windows.Media;
     using System.Windows.Shapes;
@@ -9,6 +10,10 @@
         public static Brush DefaultBrush = new SolidColorBrush
         {
             Color = Colors.Red
+        };
+        public static Brush BlueBrush = new SolidColorBrush
+        {
+            Color = Colors.Blue
         };
 
         public static double DefaultThickness = 2d;
@@ -39,10 +44,26 @@
             };
         }
 
+        public static Point GetMiddlePoint(Point start, Point end)
+        {
+            var x = (start.X + end.X) / 2;
+            var y = (start.Y + end.Y) / 2;
+            return new Point(x, y);
+        }
+
         public static Point GetLocation(UIElement element, UIElement relativeTo, double xOffset = 0, double yOffset = 0)
         {
             var refPoint = new Point(xOffset, yOffset);
             return element.TranslatePoint(refPoint, relativeTo);
+        }
+
+        public static Point MovePoint(Point start, double x, double y)
+        {
+            return new Point()
+            {
+                X = start.X + x,
+                Y = start.Y + y,
+            };
         }
     }
 }
