@@ -4,6 +4,7 @@
     using EnigmaLibrary.Models.Classic.Components;
     using EnigmaLibrary.Models.Enums;
     using Xunit;
+
     public class ReflectorTests
     {
         [Theory]
@@ -14,10 +15,11 @@
         public void Process_GetCorrectOutput(char inputLetter, char expectedLetter, bool step, bool expectedStep, ReflectorType type)
         {
             // Arrange
-            var factory = new ComponentFactory();
+            var utilityFactory = new UtilityFactory();
+            var factory = new ComponentFactory(utilityFactory);
             var reflector = factory.CreateReflector(type);
             var inputValue = CommonHelper.LetterToNumber(inputLetter);
-            var signal = factory.CreateSignal(inputValue, step, SignalDirection.In);
+            var signal = utilityFactory.CreateSignal(inputValue, step, SignalDirection.In);
 
             // Act
             var resultSignal = reflector.Process(signal);

@@ -49,13 +49,12 @@
                 foreach (var c in addedSubstring)
                 {
                     var x = c;
-                    if(char.IsLetter(c))
+                    if (char.IsLetter(c))
                     {
                         x = Enigma.Encrypt(c);
                     }
                     Output += x;
                 }
-
             }
             else if (oldValue.Length > newValue.Length)
             {

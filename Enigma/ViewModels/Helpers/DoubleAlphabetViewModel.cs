@@ -1,38 +1,24 @@
 ﻿namespace EnigmaUI.ViewModels.Helpers
 {
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Windows.Controls;
     using Caliburn.Micro;
     using EnigmaLibrary.Helpers;
     using EnigmaLibrary.Models.Classic.Components;
     using EnigmaLibrary.Models.Enums;
-    using EnigmaLibrary.Models.Interfaces.Components;
     using EnigmaUI.Drawers;
     using EnigmaUI.Extensions;
     using EnigmaUI.ViewModels.Interfaces;
     using EnigmaUI.Views.Helpers;
-    using System.Collections.ObjectModel;
-    using System.Linq;
-    using System.Windows.Controls;
 
     public class DoubleAlphabetViewModel : AlphabetViewModelBase, IAlphabetViewModel, IViewAware,
-        IHandle<ILetterTranslation>, IHandle<RotorStepMessage>
+        IHandle<LetterTranslation>, IHandle<RotorStepMessage>
     {
         public ObservableCollection<LetterViewModel> InnerLetterViews { get; } = new ObservableCollection<LetterViewModel>();
         public ObservableCollection<LetterViewModel> OuterLetterViews { get; } = new ObservableCollection<LetterViewModel>();
 
-
-        public override void Initialize()
-        {
-            base.Initialize();
-            foreach (var letter in CommonHelper.GetAlphabet(PositionShift))
-            {
-                InnerLetterViews.Add(HelpersViewModelFactory.CreateLetter(letter));
-                OuterLetterViews.Add(HelpersViewModelFactory.CreateLetter(letter));
-            }
-
-            ConnectionDrawer = new DoubleConnectionDrawer();
-        }
-
-        public override void Handle(ILetterTranslation translation)
+        public override void Handle(LetterTranslation translation)
         {
             var grid = (GetView() as DoubleAlphabetView).GetChildOfType<Grid>();
             grid.UpdateLayout();
@@ -43,7 +29,8 @@
             {
                 fromView = InnerLetterViews.First(vm => vm.Letter == translation.Input).GetView() as LetterView;
                 toView = OuterLetterViews.First(vm => vm.Letter == translation.Result).GetView() as LetterView;
-            } else
+            }
+            else
             {
                 fromView = OuterLetterViews.First(vm => vm.Letter == translation.Input).GetView() as LetterView;
                 toView = InnerLetterViews.First(vm => vm.Letter == translation.Result).GetView() as LetterView;
@@ -57,9 +44,21 @@
             MoveAlphabetBy(message.Steps);
         }
 
+        public override void Initialize()
+        {
+            base.Initialize();
+            foreach (var letter in CommonHelper.GetShiftedAlphabet(PositionShift))
+            {
+                InnerLetterViews.Add(HelpersViewModelFactory.CreateLetter(letter));
+                OuterLetterViews.Add(HelpersViewModelFactory.CreateLetter(letter));
+            }
+
+            ConnectionDrawer = new DoubleConnectionDrawer();
+        }
+
         private void MoveAlphabetBy(int steps)
         {
-            if(steps > 0)
+            if (steps > 0)
             {
                 for (var i = 0; i < steps; i++)
                 {
@@ -70,7 +69,8 @@
                     InnerLetterViews.Add(firstLetterInner);
                     OuterLetterViews.Add(firstLetterOuter);
                 }
-            } else
+            }
+            else
             {
                 for (var i = 0; i > steps; i--)
                 {
@@ -82,7 +82,6 @@
                     OuterLetterViews.Insert(0, lastLetterOuter);
                 }
             }
-            
         }
     }
 }

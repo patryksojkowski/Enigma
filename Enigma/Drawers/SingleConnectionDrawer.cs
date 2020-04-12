@@ -10,13 +10,12 @@
     {
         private readonly double _xOffset = -10;
         private readonly double _yOffset = 7;
+        private Line _firstLine;
         private Line _mainLineIn;
         private Line _mainLineOut;
-        private Line _firstLine;
-        private Line _secondLine;
-
         private Line _outFirstLine;
         private Line _outSecondLine;
+        private Line _secondLine;
 
         public void Draw(Grid grid, LetterView from, LetterView to, SignalDirection direction)
         {

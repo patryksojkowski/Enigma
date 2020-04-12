@@ -1,121 +1,66 @@
-﻿//namespace EnigmaLibrary.Tests.Stubs
-//{
-//    using System;
-//    using System.Collections.Generic;
-//    using Caliburn.Micro;
-//    using EnigmaLibrary.Models.Classic.Components;
-//    using EnigmaLibrary.Models.Enums;
-//    using EnigmaLibrary.Models.Interfaces;
-//    using EnigmaLibrary.Models.Interfaces.Components;
+﻿namespace EnigmaLibrary.Tests.Stubs
+{
+    using System.Collections.Generic;
+    using Caliburn.Micro;
+    using EnigmaLibrary.Models.Enums;
+    using EnigmaLibrary.Models.Interfaces;
+    using EnigmaLibrary.Models.Interfaces.Components;
+    using static EnigmaLibrary.Models.Classic.EnigmaSettings;
 
-//    public class EnigmaSettingsStub : IEnigmaSettings
-//    {
-//        private readonly IEventAggregator _eventAggregator;
+    public class EnigmaSettingsStub : IEnigmaSettings
+    {
+        private readonly IEventAggregator _eventAggregator;
 
-//        public EnigmaSettingsStub(IEventAggregator eventAggregator, IComponentFactory componentFactory)
-//        {
-//            _eventAggregator = eventAggregator;
-//            ComponentFactory = componentFactory;
-//            ComponentList = new List<IEnigmaComponent>();
-//        }
-//        public List<IEnigmaComponent> ComponentList { get; set; }
-//        public IComponentFactory ComponentFactory { get; set; }
-//    }
+        public EnigmaSettingsStub(IEventAggregator eventAggregator, IComponentFactory componentFactory)
+        {
+            _eventAggregator = eventAggregator;
+            ComponentFactory = componentFactory;
+            ComponentList = new List<IEnigmaComponent>();
+        }
 
-//    public class ComponentFactoryStub : IComponentFactory
-//    {
-//        public Func<char, bool, ISignal> SignalFactory => (c, b) => new Signal(c, b);
+        public IComponentFactory ComponentFactory { get; set; }
+        public List<IEnigmaComponent> ComponentList { get; set; }
+        public IPlugboard Plugboard { get; private set; }
 
-//        public IPlugboard CreatePlugboard()
-//        {
-//            return new PlugboardStub(null, SignalFactory);
-//        }
+        public IReflector Reflector { get; private set; }
 
-//        public IPlugboard CreatePlugboard(Dictionary<char, char> connections)
-//        {
-//            return new PlugboardStub(connections, SignalFactory);
-//        }
+        public IRotor Rotor1 { get; private set; }
 
-//        public IReflector CreateReflector(ReflectorType type)
-//        {
-//            return new ReflectorStub(type, SignalFactory);
-//        }
+        public IRotor Rotor2 { get; private set; }
 
-//        public IRotor CreateRotor(RotorType type, RotorSlot slot, int position)
-//        {
-//            return new RotorStub(slot, position, SignalFactory, type);
-//        }
-//    }
+        public IRotor Rotor3 { get; private set; }
 
-//    public class RotorStub : IRotor
-//    {
-//        private readonly Func<char, bool, ISignal> _signalFactory;
+        public IRotor GetRotor(RotorSlot slot)
+        {
+            return null;
+        }
 
-//        public RotorStub(RotorSlot slot, int position, Func<char, bool, ISignal> signalFactory, RotorType type)
-//        {
-//            Slot = slot;
-//            Position = position;
-//            _signalFactory = signalFactory;
-//            Type = type;
-//        }
+        public void LoadSettings(SavedSettings settings)
+        {
+            Rotor1 = ComponentFactory.CreateRotor(settings.Slot1.RotorType, RotorSlot.One, settings.Slot1.Position);
+            Rotor2 = ComponentFactory.CreateRotor(settings.Slot2.RotorType, RotorSlot.Two, settings.Slot2.Position);
+            Rotor3 = ComponentFactory.CreateRotor(settings.Slot3.RotorType, RotorSlot.Three, settings.Slot3.Position);
 
-//        public RotorSlot Slot { get; set; }
-//        public int Position { get; set; }
-//        public RotorType Type { get; set; }
+            Reflector = ComponentFactory.CreateReflector(settings.ReflectorType);
+            Plugboard = ComponentFactory.CreatePlugboard(settings.PlugboardConnections);
 
-//        public void Move(int steps)
-//        {
-//            Position += steps;
-//            Position %= 26;
-//            Position += 26;
-//            Position %= 26;
-//        }
+            InitializeComponentList();
+        }
 
-//        public ISignal Process(ISignal input)
-//        {
-//            return input;
-//        }
-//    }
-
-//    public class ReflectorStub : IReflector
-//    {
-//        private readonly Func<char, bool, ISignal> _signalFactory;
-
-//        public ReflectorStub(ReflectorType type, Func<char, bool, ISignal> signalFactory)
-//        {
-//            Type = type;
-//            _signalFactory = signalFactory;
-//        }
-
-//        public ReflectorType Type { get; set; }
-
-//        public ISignal Process(ISignal input)
-//        {
-//            return input;
-//        }
-//    }
-
-//    public class PlugboardStub : IPlugboard
-//    {
-//        private readonly Func<char, bool, ISignal> _signalFactory;
-
-//        public PlugboardStub(Dictionary<char,char> connections, Func<char, bool, ISignal> signalFactory)
-//        {
-//            Connections = connections;
-//            _signalFactory = signalFactory;
-//        }
-
-//        public Dictionary<char, char> Connections { get; set; }
-
-//        public void AddConnection(char from, char to)
-//        {
-//            Connections.Add(from, to);
-//            Connections.Add(to, from);
-//        }
-
-//        public ISignal Process(ISignal input)
-//        {
-//            return input;
-//        }
-//    }
-//}
+        private void InitializeComponentList()
+        {
+            ComponentList = new List<IEnigmaComponent>
+            {
+                Plugboard,
+                Rotor1,
+                Rotor2,
+                Rotor3,
+                Reflector,
+                Rotor3,
+                Rotor2,
+                Rotor1,
+                Plugboard
+            };
+        }
+    }
+}

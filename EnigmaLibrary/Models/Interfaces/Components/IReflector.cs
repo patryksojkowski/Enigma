@@ -5,7 +5,7 @@
 
     public interface IReflector : IEnigmaComponent
     {
-        ReflectorType Type { get; set; }
         IEventAggregator ReflectorAggregator { get; }
+        ReflectorType Type { get; }
     }
 }

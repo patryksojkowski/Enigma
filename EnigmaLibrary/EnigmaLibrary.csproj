@@ -64,12 +64,14 @@
     <Compile Include="Models\Classic\Components\LetterTranslation.cs" />
     <Compile Include="Models\Classic\Components\RotorStepMessage.cs" />
     <Compile Include="Models\Classic\Components\Signal.cs" />
+    <Compile Include="Models\Classic\Components\UtilityFactory.cs" />
+    <Compile Include="Models\Classic\Settings\SavedSettings.cs" />
+    <Compile Include="Models\Classic\Settings\SettingsHelper.cs" />
     <Compile Include="Models\Enums\ReflectorType.cs" />
     <Compile Include="Models\Enums\RotorType.cs" />
     <Compile Include="Models\Enums\SignalDirection.cs" />
     <Compile Include="Models\Interfaces\Components\IComponentFactory.cs" />
     <Compile Include="Models\Interfaces\Components\IEnigmaComponent.cs" />
-    <Compile Include="Models\Interfaces\Components\ILetterTranslation.cs" />
     <Compile Include="Models\Interfaces\Components\IPlugboard.cs" />
     <Compile Include="Models\Interfaces\Components\IReflector.cs" />
     <Compile Include="Models\Interfaces\Components\IRotor.cs" />
@@ -79,7 +81,7 @@
     <Compile Include="Models\Classic\Enigma.cs" />
     <Compile Include="Models\Classic\EnigmaSettings.cs" />
     <Compile Include="Models\Enums\RotorSlot.cs" />
-    <Compile Include="Models\Interfaces\Components\ISignal.cs" />
+    <Compile Include="Models\Interfaces\Components\IUtilityFactory.cs" />
     <Compile Include="Models\Interfaces\IEnigma.cs" />
     <Compile Include="Models\Interfaces\IEnigmaSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

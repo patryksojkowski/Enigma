@@ -6,11 +6,16 @@
 
     public interface IAlphabetViewModel
     {
-        void Initialize();
-        IEventAggregator EventAggregator { get; set; }
-        IConnectionDrawer ConnectionDrawer { get; set; }
-        HelpersViewModelFactory HelpersViewModelFactory { get; set; }
+        IConnectionDrawer ConnectionDrawer { get; }
+
         char[] Connections { get; set; }
+
+        IEventAggregator EventAggregator { get; set; }
+
+        HelpersViewModelFactory HelpersViewModelFactory { get; set; }
+
         int PositionShift { get; set; }
+
+        void Initialize();
     }
 }

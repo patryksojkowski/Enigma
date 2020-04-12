@@ -2,27 +2,26 @@
 {
     using System;
     using Caliburn.Micro;
-    using EnigmaLibrary.Models.Interfaces.Components;
+    using EnigmaLibrary.Models.Classic.Components;
     using EnigmaUI.Drawers;
     using EnigmaUI.ViewModels.Interfaces;
 
-    public abstract class AlphabetViewModelBase : IAlphabetViewModel, IHandle<ILetterTranslation>, IViewAware
+    public abstract class AlphabetViewModelBase : IAlphabetViewModel, IHandle<LetterTranslation>, IViewAware
     {
         private IEventAggregator _eventAggregator;
         private object _view;
-
-        public event EventHandler<ViewAttachedEventArgs> ViewAttached;
 
         public AlphabetViewModelBase()
         {
         }
 
-        public char[] Connections { get; set; }
+        public event EventHandler<ViewAttachedEventArgs> ViewAttached;
 
         public IConnectionDrawer ConnectionDrawer { get; set; }
-        public HelpersViewModelFactory HelpersViewModelFactory { get; set; }
+        public char[] Connections { get; set; }
 
-        public IEventAggregator EventAggregator {
+        public IEventAggregator EventAggregator
+        {
             get
             {
                 return _eventAggregator;
@@ -34,6 +33,7 @@
             }
         }
 
+        public HelpersViewModelFactory HelpersViewModelFactory { get; set; }
         public int PositionShift { get; set; }
 
         public void AttachView(object view, object context = null)
@@ -46,7 +46,7 @@
             return _view;
         }
 
-        public abstract void Handle(ILetterTranslation message);
+        public abstract void Handle(LetterTranslation message);
 
         public virtual void Initialize()
         {

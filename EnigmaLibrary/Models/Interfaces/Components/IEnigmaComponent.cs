@@ -1,7 +1,9 @@
-﻿namespace EnigmaLibrary.Models.Interfaces.Components
+﻿using EnigmaLibrary.Models.Classic.Components;
+
+namespace EnigmaLibrary.Models.Interfaces.Components
 {
     public interface IEnigmaComponent
     {
-        ISignal Process(ISignal input);
+        Signal Process(Signal input);
     }
 }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 using EnigmaLibrary.Models.Enums;
@@ -11,22 +6,21 @@ using EnigmaUI.Views.Helpers;
 
 namespace EnigmaUI.Drawers
 {
-    class DoubleConnectionDrawer : IConnectionDrawer
+    internal class DoubleConnectionDrawer : IConnectionDrawer
     {
         private readonly double _xOffset = -10;
         private readonly double _yOffset = 7;
-        private Line _mainLineIn;
+        private Line _endOuterLineIn;
+        private Line _endOuterLineOut;
         private Line _firstLineIn;
-        private Line _secondLineIn;
-        
-        private Line _mainLineOut;
         private Line _firstLineOut;
+        private Line _mainLineIn;
+        private Line _mainLineOut;
+        private Line _secondLineIn;
         private Line _secondLineOut;
 
         private Line _startOuterLineIn;
-        private Line _endOuterLineIn;
         private Line _startOuterLineOut;
-        private Line _endOuterLineOut;
 
         public void Draw(Grid grid, LetterView from, LetterView to, SignalDirection direction)
         {
@@ -35,9 +29,11 @@ namespace EnigmaUI.Drawers
                 case SignalDirection.In:
                     DrawFirst(grid, from, to);
                     break;
+
                 case SignalDirection.Out:
                     DrawSecond(grid, from, to);
                     break;
+
                 default:
                     break;
             }

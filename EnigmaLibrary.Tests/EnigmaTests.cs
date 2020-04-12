@@ -1,11 +1,12 @@
 ﻿namespace EnigmaLibrary.Tests
 {
+    using System.Collections.Generic;
     using Caliburn.Micro;
-    using Xunit;
     using EnigmaLibrary.Models.Classic;
     using EnigmaLibrary.Models.Classic.Components;
     using EnigmaLibrary.Models.Enums;
-    using System.Collections.Generic;
+    using EnigmaLibrary.Tests.Stubs;
+    using Xunit;
 
     public class EnigmaTests
     {
@@ -16,8 +17,9 @@
         {
             // Arrange
             var eventAggregator = new EventAggregator();
-            var componentFactory = new ComponentFactory();
-            var settings = new EnigmaSettings(eventAggregator, componentFactory);
+            var utilityFactory = new UtilityFactory();
+            var componentFactory = new ComponentFactory(utilityFactory);
+            var settings = new EnigmaSettingsStub(eventAggregator, componentFactory);
             var savedSettings = new EnigmaSettings.SavedSettings()
             {
                 ReflectorType = ReflectorType.B,
@@ -37,10 +39,9 @@
                     Position = 5,
                     RotorType = RotorType.III,
                 },
-                
             };
             settings.LoadSettings(savedSettings);
-            var enigma = new Enigma(settings);
+            var enigma = new Enigma(settings, utilityFactory);
 
             // Act
             var result = enigma.Encrypt(input);
@@ -48,6 +49,5 @@
             // Assert
             Assert.Equal(expected, result);
         }
-
     }
 }

@@ -7,12 +7,12 @@
     {
         private object _view;
 
-        public event EventHandler<ViewAttachedEventArgs> ViewAttached;
-
         public LetterViewModel(char letter)
         {
             Letter = letter;
         }
+
+        public event EventHandler<ViewAttachedEventArgs> ViewAttached;
 
         public char Letter { get; set; }
 

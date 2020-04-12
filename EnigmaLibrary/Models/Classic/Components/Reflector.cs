@@ -9,32 +9,38 @@
     public class Reflector : IReflector
     {
         private readonly Dictionary<char, char> _connections;
-        private readonly IComponentFactory _componentFactory;
+        private readonly IUtilityFactory _utilityFactory;
 
-        public Reflector(Dictionary<char, char> connections, ReflectorType type, IEventAggregator eventAggregator, IComponentFactory componentFactory)
+        public Reflector(Dictionary<char, char> connections, ReflectorType type, IEventAggregator eventAggregator, IUtilityFactory utilityFactory)
         {
             _connections = connections;
-            _componentFactory = componentFactory;
+            _utilityFactory = utilityFactory;
 
             Type = type;
             ReflectorAggregator = eventAggregator;
         }
 
-        public ReflectorType Type { get; set; }
         public IEventAggregator ReflectorAggregator { get; }
+        public ReflectorType Type { get; }
 
-        public ISignal Process(ISignal signal)
+        public Signal Process(Signal signal)
         {
             var inputLetter = CommonHelper.NumberToLetter(signal.Value);
 
             var outputLetter = _connections[inputLetter];
-            var translation = _componentFactory.CreateTranslation(inputLetter, outputLetter, SignalDirection.Out);
 
-            ReflectorAggregator.PublishOnUIThread(translation);
+            SendTranslationToUI(inputLetter, outputLetter);
 
             var resultValue = CommonHelper.LetterToNumber(outputLetter);
 
-            return _componentFactory.CreateSignal(resultValue, false, SignalDirection.Out);
+            return _utilityFactory.CreateSignal(resultValue, false, SignalDirection.Out);
+        }
+
+        private void SendTranslationToUI(char from, char to)
+        {
+            var translation = _utilityFactory.CreateTranslation(from, to, SignalDirection.Out);
+
+            ReflectorAggregator.PublishOnUIThread(translation);
         }
     }
 }

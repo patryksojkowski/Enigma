@@ -6,6 +6,7 @@
         {
             Steps = step;
         }
-        public int Steps { get; set; }
+
+        public int Steps { get; }
     }
 }

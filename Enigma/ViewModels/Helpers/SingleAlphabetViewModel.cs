@@ -5,30 +5,17 @@
     using System.Windows.Controls;
     using Caliburn.Micro;
     using EnigmaLibrary.Helpers;
-    using EnigmaLibrary.Models.Interfaces.Components;
+    using EnigmaLibrary.Models.Classic.Components;
     using EnigmaUI.Drawers;
     using EnigmaUI.Extensions;
     using EnigmaUI.ViewModels.Interfaces;
     using EnigmaUI.Views.Helpers;
 
-    public class SingleAlphabetViewModel : AlphabetViewModelBase, IAlphabetViewModel, IViewAware, IHandle<ILetterTranslation>
+    public class SingleAlphabetViewModel : AlphabetViewModelBase, IAlphabetViewModel, IViewAware, IHandle<LetterTranslation>
     {
         public List<LetterViewModel> LetterViewModels { get; } = new List<LetterViewModel>();
 
-        public override void Initialize()
-        {
-            base.Initialize();
-            
-            foreach (var letter in CommonHelper.GetAlphabet())
-            {
-                var letterViewModel = HelpersViewModelFactory.CreateLetter(letter);
-                LetterViewModels.Add(letterViewModel);
-            }
-
-            ConnectionDrawer = new SingleConnectionDrawer();
-        }
-
-        public override void Handle(ILetterTranslation translation)
+        public override void Handle(LetterTranslation translation)
         {
             var grid = (GetView() as SingleAlphabetView).GetChildOfType<Grid>();
 
@@ -36,6 +23,19 @@
             var toView = LetterViewModels.First(vm => vm.Letter == translation.Result).GetView() as LetterView;
 
             ConnectionDrawer.Draw(grid, fromView, toView, translation.Direction);
+        }
+
+        public override void Initialize()
+        {
+            base.Initialize();
+
+            foreach (var letter in CommonHelper.GetAlphabet())
+            {
+                var letterViewModel = HelpersViewModelFactory.CreateLetter(letter);
+                LetterViewModels.Add(letterViewModel);
+            }
+
+            ConnectionDrawer = new SingleConnectionDrawer();
         }
     }
 }

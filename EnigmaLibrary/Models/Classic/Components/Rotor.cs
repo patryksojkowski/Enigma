@@ -8,24 +8,24 @@
 
     public class Rotor : IRotor
     {
-        private readonly IComponentFactory _componentFactory;
+        private readonly IUtilityFactory _utilityFactory;
 
-        public Rotor(RotorSlot slot, int position, char[] connections, RotorType type, IEventAggregator eventAggregator, IComponentFactory componentFactory)
+        public Rotor(RotorSlot slot, int position, char[] connections, RotorType type, IEventAggregator eventAggregator, IUtilityFactory utilityFactory)
         {
+            _utilityFactory = utilityFactory;
+
             Connections = connections;
             Slot = slot;
             PositionShift = position;
             Type = type;
             RotorAggregator = eventAggregator;
-            _componentFactory = componentFactory;
         }
 
-        public RotorSlot Slot { get; set; }
-        public int PositionShift { get; private set; }
-        public RotorType Type { get; set; }
-        public IEventAggregator RotorAggregator { get; private set; }
-
         public char[] Connections { get; private set; }
+        public int PositionShift { get; private set; }
+        public IEventAggregator RotorAggregator { get; private set; }
+        public RotorSlot Slot { get; private set; }
+        public RotorType Type { get; private set; }
 
         public bool Move(int steps)
         {
@@ -38,15 +38,14 @@
                 nextStep = true;
             }
 
-            var stepMessage = _componentFactory.CreateRotorStepMessage(steps);
-            RotorAggregator.PublishOnUIThread(stepMessage);
-
             PositionShift = CommonHelper.To0_25Range(PositionShift);
+
+            SendStepsToUI(steps);
 
             return nextStep;
         }
 
-        public ISignal Process(ISignal signal)
+        public Signal Process(Signal signal)
         {
             bool nextStep = false;
 
@@ -60,25 +59,24 @@
 
             char inputLetter, outputLetter;
 
-            if  (signal.Direction == SignalDirection.In) // P()
+            if (signal.Direction == SignalDirection.In)
             {
                 inputLetter = CommonHelper.NumberToLetter(shiftedInput);
                 outputLetter = Connections[shiftedInput];
             }
-            else // P^(-1)
+            else
             {
                 inputLetter = CommonHelper.NumberToLetter(shiftedInput);
                 var outputPosition = Array.IndexOf(Connections, inputLetter);
                 outputLetter = CommonHelper.NumberToLetter(outputPosition);
             }
 
-            var translation = _componentFactory.CreateTranslation(inputLetter, outputLetter, signal.Direction);
-            RotorAggregator.PublishOnUIThread(translation);
-
             var shiftedOutput = CommonHelper.LetterToNumber(outputLetter);
             var resultValue = RemoveShift(shiftedOutput);
 
-            return _componentFactory.CreateSignal(resultValue, nextStep, signal.Direction);
+            SendTranslationToUI(inputLetter, outputLetter, signal.Direction);
+
+            return _utilityFactory.CreateSignal(resultValue, nextStep, signal.Direction);
         }
 
         private int AddShift(int inputPosition)
@@ -89,6 +87,18 @@
         private int RemoveShift(int outputPosition)
         {
             return CommonHelper.To0_25Range(outputPosition - PositionShift);
+        }
+
+        private void SendStepsToUI(int steps)
+        {
+            var stepMessage = _utilityFactory.CreateRotorStepMessage(steps);
+            RotorAggregator.PublishOnUIThread(stepMessage);
+        }
+
+        private void SendTranslationToUI(char from, char to, SignalDirection direction)
+        {
+            var translation = _utilityFactory.CreateTranslation(from, to, direction);
+            RotorAggregator.PublishOnUIThread(translation);
         }
     }
 }

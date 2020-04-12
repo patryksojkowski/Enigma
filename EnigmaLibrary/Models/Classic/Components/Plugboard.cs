@@ -1,37 +1,21 @@
 ﻿namespace EnigmaLibrary.Models.Classic.Components
 {
-    using System;
     using System.Collections.Generic;
     using EnigmaLibrary.Helpers;
     using EnigmaLibrary.Models.Interfaces.Components;
 
     public class Plugboard : IPlugboard
     {
-        private readonly IComponentFactory _componentFactory;
-        public Dictionary<char, char> Connections { get; set; }
+        private readonly IUtilityFactory _utilityFactory;
 
-        public Plugboard(Dictionary<char, char> connections, IComponentFactory componentFactory)
+        public Plugboard(Dictionary<char, char> connections, IUtilityFactory utilityFactory)
         {
-            _componentFactory = componentFactory;
+            _utilityFactory = utilityFactory;
 
             Connections = connections;
         }
 
-        public ISignal Process(ISignal signal)
-        {
-            var inputValue = signal.Value;
-
-            var inputLetter = CommonHelper.NumberToLetter(inputValue);
-            var outputLetter = inputLetter;
-            if (Connections.ContainsKey(inputLetter))
-            {
-                outputLetter = Connections[inputLetter];
-            }
-
-            var resultValue = CommonHelper.LetterToNumber(outputLetter);
-
-            return _componentFactory.CreateSignal(resultValue, true, signal.Direction);
-        }
+        public Dictionary<char, char> Connections { get; }
 
         public void AddConnection(char from, char to)
         {
@@ -45,6 +29,24 @@
             }
             Connections.Add(from, to);
             Connections.Add(to, from);
+        }
+
+        public Signal Process(Signal signal)
+        {
+            var inputValue = signal.Value;
+
+            var inputLetter = CommonHelper.NumberToLetter(inputValue);
+
+            var outputLetter = inputLetter;
+
+            if (Connections.ContainsKey(inputLetter))
+            {
+                outputLetter = Connections[inputLetter];
+            }
+
+            var resultValue = CommonHelper.LetterToNumber(outputLetter);
+
+            return _utilityFactory.CreateSignal(resultValue, true, signal.Direction);
         }
     }
 }

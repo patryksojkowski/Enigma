@@ -6,14 +6,13 @@
 
     public interface IEnigmaSettings
     {
-        List<IEnigmaComponent> ComponentList { get; set; }
-        IComponentFactory ComponentFactory { get; set; }
-
-        IRotor Rotor1 { get; set; }
-        IRotor Rotor2 { get; set; }
-        IRotor Rotor3 { get; set; }
-        IReflector Reflector { get; set; }
-        IPlugboard Plugboard { get; set; }
+        IComponentFactory ComponentFactory { get; }
+        List<IEnigmaComponent> ComponentList { get; }
+        IPlugboard Plugboard { get; }
+        IReflector Reflector { get; }
+        IRotor Rotor1 { get; }
+        IRotor Rotor2 { get; }
+        IRotor Rotor3 { get; }
 
         IRotor GetRotor(RotorSlot slot);
     }

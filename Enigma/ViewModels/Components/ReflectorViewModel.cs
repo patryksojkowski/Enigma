@@ -31,9 +31,6 @@
             AlphabetViewModel = _viewController.GetAlphabetViewModel();
         }
 
-        public IEnumerable<ReflectorType> Types { get; set; }
-        public ReflectorType ReflectorType { get; set; }
-
         public IAlphabetViewModel AlphabetViewModel
         {
             get
@@ -46,6 +43,9 @@
                 NotifyOfPropertyChange(() => AlphabetViewModel);
             }
         }
+
+        public ReflectorType ReflectorType { get; set; }
+        public IEnumerable<ReflectorType> Types { get; set; }
 
         public void ChangeReflector(object sender, SelectionChangedEventArgs args)
         {
@@ -60,8 +60,8 @@
 
         private class ReflectorController
         {
-            private readonly IEnigmaSettings _enigmaSettings;
             private readonly IComponentFactory _componentFactory;
+            private readonly IEnigmaSettings _enigmaSettings;
             private readonly IEventAggregator _settingsAggregator;
 
             private IReflector _reflector;
@@ -94,8 +94,8 @@
 
         private class ReflectorViewController
         {
-            private readonly HelpersViewModelFactory _helpersViewModelFactory;
             private readonly IAlphabetViewModel _alphabetViewModel;
+            private readonly HelpersViewModelFactory _helpersViewModelFactory;
 
             public ReflectorViewController(IEventAggregator reflectorAggregator, HelpersViewModelFactory helpersViewModelFactory)
             {

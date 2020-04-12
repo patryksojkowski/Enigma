@@ -1,15 +1,15 @@
 ﻿namespace EnigmaUI.ViewModels.Components
 {
     using Caliburn.Micro;
-    using EnigmaLibrary.Models.Interfaces.Components;
     using EnigmaLibrary.Models.Enums;
     using EnigmaLibrary.Models.Interfaces;
+    using EnigmaLibrary.Models.Interfaces.Components;
     using EnigmaUI.ViewModels.Helpers;
 
     public class RotorViewModelFactory
     {
-        private readonly IEventAggregator _enigmaAggregator;
         private readonly IComponentFactory _componentFactory;
+        private readonly IEventAggregator _enigmaAggregator;
         private readonly IEnigmaSettings _enigmaSettings;
         private readonly HelpersViewModelFactory _helpersViewModelFactory;
 

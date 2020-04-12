@@ -8,13 +8,12 @@
         Title="ShellView" Height="700" Width="1200">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        
-        
-        <ContentControl x:Name="EncryptionViewModel"/>
 
-        <ContentControl Grid.Column="1" x:Name="SettingsViewModel"/>
+        <ContentControl x:Name="EncryptionViewModel" />
+
+        <ContentControl Grid.Column="1" x:Name="SettingsViewModel" />
     </Grid>
 </Window>

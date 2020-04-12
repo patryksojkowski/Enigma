@@ -5,12 +5,12 @@
 
     public interface IRotor : IEnigmaComponent
     {
-        RotorSlot Slot { get; set; }
+        char[] Connections { get; }
         int PositionShift { get; }
-        RotorType Type { get; set; }
-        bool Move(int steps);
         IEventAggregator RotorAggregator { get; }
-        char [] Connections { get; }
+        RotorSlot Slot { get; }
+        RotorType Type { get; }
 
+        bool Move(int steps);
     }
 }

@@ -2,6 +2,7 @@
 {
     using System.Windows;
     using System.Windows.Media;
+
     public static class DependecyObjectExtensions
     {
         public static T GetChildOfType<T>(this DependencyObject depObj) where T : DependencyObject

@@ -4,12 +4,12 @@
     using System.Collections.Generic;
     using System.Windows;
     using Caliburn.Micro;
-    using EnigmaUI.ViewModels;
-    using EnigmaUI.ViewModels.Components;
     using EnigmaLibrary.Models.Classic;
     using EnigmaLibrary.Models.Classic.Components;
     using EnigmaLibrary.Models.Interfaces;
     using EnigmaLibrary.Models.Interfaces.Components;
+    using EnigmaUI.ViewModels;
+    using EnigmaUI.ViewModels.Components;
     using EnigmaUI.ViewModels.Helpers;
 
     public class Bootstrapper : BootstrapperBase
@@ -21,9 +21,9 @@
             Initialize();
         }
 
-        protected override void OnStartup(object sender, StartupEventArgs e)
+        protected override void BuildUp(object instance)
         {
-            DisplayRootViewFor<ShellViewModel>();
+            container.BuildUp(instance);
         }
 
         protected override void Configure()
@@ -34,13 +34,14 @@
 
             // factories
             container.Singleton<IComponentFactory, ComponentFactory>();
+            container.Singleton<IUtilityFactory, UtilityFactory>();
 
             // views
             container.Singleton<ShellViewModel>();
             container.Singleton<EncryptionViewModel>();
             container.Singleton<SettingsViewModel>();
 
-           // component views
+            // component views
             container.Singleton<PlugboardViewModel>();
             container.Singleton<ReflectorViewModel>();
             container.Singleton<RotorViewModelFactory>();
@@ -53,19 +54,19 @@
             container.Singleton<IEnigmaSettings, EnigmaSettings>();
         }
 
-        protected override object GetInstance(Type service, string key)
-        {
-            return container.GetInstance(service, key);
-        }
-
         protected override IEnumerable<object> GetAllInstances(Type service)
         {
             return container.GetAllInstances(service);
         }
 
-        protected override void BuildUp(object instance)
+        protected override object GetInstance(Type service, string key)
         {
-            container.BuildUp(instance);
+            return container.GetInstance(service, key);
+        }
+
+        protected override void OnStartup(object sender, StartupEventArgs e)
+        {
+            DisplayRootViewFor<ShellViewModel>();
         }
     }
 }

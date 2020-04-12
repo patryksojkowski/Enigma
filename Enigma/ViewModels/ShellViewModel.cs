@@ -4,14 +4,13 @@
 
     public class ShellViewModel : Conductor<object>
     {
-        public EncryptionViewModel EncryptionViewModel { get; }
-        public SettingsViewModel SettingsViewModel { get; }
-
         public ShellViewModel(EncryptionViewModel encryptionViewModel, SettingsViewModel settingsViewModel)
         {
             EncryptionViewModel = encryptionViewModel;
             SettingsViewModel = settingsViewModel;
         }
 
+        public EncryptionViewModel EncryptionViewModel { get; }
+        public SettingsViewModel SettingsViewModel { get; }
     }
 }

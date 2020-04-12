@@ -13,8 +13,8 @@ namespace EnigmaLibrary.Helpers
             }
             return output;
         }
-        
-        public static List<char> GetAlphabet(int shift)
+
+        public static List<char> GetShiftedAlphabet(int shift)
         {
             var output = new List<char>();
             for (var i = 'A' + shift; i <= 'Z'; i++)
@@ -28,9 +28,9 @@ namespace EnigmaLibrary.Helpers
             return output;
         }
 
-        public static int To0_25Range(int i)
+        public static int LetterToNumber(char c)
         {
-            return ((i % 26) + 26) % 26;
+            return c - 65;
         }
 
         public static char NumberToLetter(int i)
@@ -38,9 +38,9 @@ namespace EnigmaLibrary.Helpers
             return (char)(i + 65);
         }
 
-        public static int LetterToNumber(char c)
+        public static int To0_25Range(int i)
         {
-            return c - 65;
+            return ((i % 26) + 26) % 26;
         }
     }
 }
