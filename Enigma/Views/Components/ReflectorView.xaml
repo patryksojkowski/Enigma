@@ -6,7 +6,7 @@
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:local="clr-namespace:EnigmaUI.Views"
              xmlns:helpers="clr-namespace:EnigmaUI.Views.Helpers"
-             mc:Ignorable="d" Height="500"
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>

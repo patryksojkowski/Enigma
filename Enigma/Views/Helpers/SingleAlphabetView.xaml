@@ -6,8 +6,10 @@
              xmlns:local="clr-namespace:EnigmaUI.Views.Helpers"
              mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <ItemsControl x:Name="LetterViewModels">
-        </ItemsControl>
-    </Grid>
+    <Border BorderBrush="#AAAAAA" BorderThickness="1" CornerRadius="8">
+        <Grid>
+            <ItemsControl x:Name="LetterViewModels">
+            </ItemsControl>
+        </Grid>
+    </Border>
 </UserControl>
