@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Windows;
 using Caliburn.Micro;
 using DragAndDrop.ViewModels;
+using EnigmaLibrary.Models.Classic;
+using EnigmaLibrary.Models.Classic.Components;
+using EnigmaLibrary.Models.Interfaces;
+using EnigmaLibrary.Models.Interfaces.Components;
 
 namespace DragAndDrop
 {
@@ -17,14 +21,20 @@ namespace DragAndDrop
 
         protected override void Configure()
         {
+            // main
             _container.Singleton<IWindowManager, WindowManager>();
             _container.Singleton<IEventAggregator, EventAggregator>();
 
+            // view factories
             _container.Singleton<ConnectingViewModelFactory>();
 
+            // view models
             _container.PerRequest<ConnectingAlphabetViewModel>();
-
             _container.Singleton<PlugboardViewModel>();
+
+            // models
+            _container.Singleton<IComponentFactory, ComponentFactory>();
+            _container.Singleton<IEnigmaSettings, EnigmaSettings>();
         }
 
         protected override void OnStartup(object sender, StartupEventArgs e)

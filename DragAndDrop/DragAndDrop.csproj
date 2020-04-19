@@ -130,5 +130,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EnigmaLibrary\EnigmaLibrary.csproj">
+      <Project>{4d46240b-8ff9-4894-88f5-3de097c3ec45}</Project>
+      <Name>EnigmaLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -48,5 +48,11 @@
 
             return _utilityFactory.CreateSignal(resultValue, true, signal.Direction);
         }
+
+        public void RemoveConnection(char from, char to)
+        {
+            Connections.Remove(from);
+            Connections.Remove(to);
+        }
     }
 }

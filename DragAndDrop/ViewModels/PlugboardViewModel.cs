@@ -9,27 +9,34 @@
     using Caliburn.Micro;
     using DragAndDrop.Messages;
     using DragAndDrop.Views;
+    using EnigmaLibrary.Models.Interfaces;
+    using EnigmaLibrary.Models.Interfaces.Components;
 
     public class PlugboardViewModel : Conductor<object>, IViewAware, IHandle<RectangleClickMessage>
     {
         private readonly List<RectangleConnection> _connections = new List<RectangleConnection>();
         private readonly ConnectingViewModelFactory _factory;
+        private readonly IEnigmaSettings _enigmaSettings;
         private ConnectingRectangleViewModel _destinationRectangle;
         private Grid _grid;
         private bool _isConnecting;
         private Line _line;
         private ConnectingRectangleViewModel _sourceRectangle;
         private PlugboardView _view;
+        private PlugboardController _plugboardController;
 
-        public PlugboardViewModel(ConnectingAlphabetViewModel sourceAlphabet, ConnectingAlphabetViewModel destinationAlphabet, ConnectingViewModelFactory factory, IEventAggregator viewEventAggregator)
+        public PlugboardViewModel(ConnectingAlphabetViewModel topAlphabet, ConnectingAlphabetViewModel bottomAlphabet, ConnectingViewModelFactory factory,
+            IEventAggregator viewEventAggregator, IEnigmaSettings enigmaSettings)
         {
-            SourceAlphabet = sourceAlphabet;
-            DestinationAlphabet = destinationAlphabet;
+            TopAlphabet = topAlphabet;
+            BottomAlphabet = bottomAlphabet;
             _factory = factory;
+            _enigmaSettings = enigmaSettings;
+            _plugboardController = new PlugboardController(enigmaSettings);
             viewEventAggregator.Subscribe(this);
         }
 
-        public ConnectingAlphabetViewModel DestinationAlphabet { get; }
+        public ConnectingAlphabetViewModel BottomAlphabet { get; }
 
         public Grid Grid
         {
@@ -39,7 +46,7 @@
             }
         }
 
-        public ConnectingAlphabetViewModel SourceAlphabet { get; }
+        public ConnectingAlphabetViewModel TopAlphabet { get; }
 
         public PlugboardView View
         {
@@ -81,11 +88,53 @@
                     RemoveExistingConnection(_destinationRectangle);
                 }
 
-                FinishDrawingLine(_destinationRectangle);
-
-                AddNewConnection(_sourceRectangle, _destinationRectangle, _line);
+                AddConnection(_sourceRectangle, _destinationRectangle, _line);
             }
         }
+
+        private void AddConnection(ConnectingRectangleViewModel source, ConnectingRectangleViewModel destination, Line line)
+        {
+            FinishDrawingLine(destination);
+            AddNewConnection(source, destination, line);
+            AddReverseConnection(source, destination);
+        }
+
+        private void AddReverseConnection(ConnectingRectangleViewModel source, ConnectingRectangleViewModel destination)
+        {
+            var sourceLetter = source.Letter;
+            var destinationLetter = destination.Letter;
+            if (sourceLetter != destinationLetter)
+            {
+                ConnectingAlphabetViewModel sourceAlphabet, destinationAlphabet;
+                if (TopAlphabet.ConnectingRectangles.Contains(source))
+                {
+                    sourceAlphabet = TopAlphabet;
+                    destinationAlphabet = BottomAlphabet;
+                }
+                else
+                {
+                    sourceAlphabet = BottomAlphabet;
+                    destinationAlphabet = TopAlphabet;
+                }
+
+                var reverseSourceLetter = sourceAlphabet.ConnectingRectangles.Single(x => x.Letter == destinationLetter);
+                var reverseDestinationLetter = destinationAlphabet.ConnectingRectangles.Single(x => x.Letter == sourceLetter);
+                var line = AddLine(reverseSourceLetter, reverseDestinationLetter);
+                AddNewConnection(reverseSourceLetter, reverseDestinationLetter, line);
+            }
+        }
+
+        private Line AddLine(ConnectingRectangleViewModel source, ConnectingRectangleViewModel destination)
+        {
+            var startPosition = GetAnchorPoint(source);
+            var endPosition = GetAnchorPoint(destination);
+
+            var line = DrawerHelper.GetLine(startPosition, endPosition, isHitTestVisible : false);
+            AddLineToGrid(line);
+
+            return line;
+        }
+
 
         private void AddLineToGrid(Line line)
         {
@@ -97,6 +146,8 @@
         {
             var connection = _factory.CreateConnection(source, destination, line);
             _connections.Add(connection);
+
+            _plugboardController.AddPlugboardConnection(connection.From, connection.To);
         }
 
         private void CancelDrawingLine()
@@ -113,8 +164,8 @@
         /// <returns></returns>
         private bool ConnectionNotPossible(ConnectingRectangleViewModel rectangle)
         {
-            return SourceAlphabet.ConnectingRectangles.Contains(_sourceRectangle) && SourceAlphabet.ConnectingRectangles.Contains(rectangle) ||
-                    DestinationAlphabet.ConnectingRectangles.Contains(_sourceRectangle) && DestinationAlphabet.ConnectingRectangles.Contains(rectangle);
+            return TopAlphabet.ConnectingRectangles.Contains(_sourceRectangle) && TopAlphabet.ConnectingRectangles.Contains(rectangle) ||
+                    BottomAlphabet.ConnectingRectangles.Contains(_sourceRectangle) && BottomAlphabet.ConnectingRectangles.Contains(rectangle);
         }
 
         private void FinishDrawingLine(ConnectingRectangleViewModel rectangle)
@@ -137,12 +188,23 @@
 
         private void RemoveExistingConnection(ConnectingRectangleViewModel rectangle)
         {
-            var connection = _connections.Single(con => con.SourceRectangle == rectangle || con.DestinationRectangle == rectangle);
-            connection.Clear();
+            var letter = rectangle.Letter;
+            var connection = _connections.Single(con => con.SourceRectangle.Letter == letter);
+            var reverseConnection = _connections.Single(con =>con.DestinationRectangle.Letter == letter);
 
-            var line = connection.ConnectingLine;
-            Grid.Children.Remove(line);
-            _connections.Remove(connection);
+            RemoveConnection(connection);
+            RemoveConnection(reverseConnection);
+
+            void RemoveConnection(RectangleConnection con)
+            {
+                con.Clear();
+
+                var line = con.ConnectingLine;
+                Grid.Children.Remove(line);
+                _connections.Remove(con);
+
+                _plugboardController.RemovePlugboardConnection(con.From, con.To);
+            }
         }
 
         private void StartDrawingLine(ConnectingRectangleViewModel rectangle)
@@ -160,6 +222,36 @@
             var mousePosition = e.GetPosition(null);
             _line.X2 = mousePosition.X;
             _line.Y2 = mousePosition.Y;
+        }
+
+        private class PlugboardController
+        {
+            private readonly IEnigmaSettings _enigmaSettings;
+            private readonly IPlugboard _plugboard;
+
+            public PlugboardController(IEnigmaSettings enigmaSettings)
+            {
+                _enigmaSettings = enigmaSettings;
+                _plugboard = _enigmaSettings.Plugboard;
+            }
+
+            public void AddPlugboardConnection(char from, char to)
+            {
+                _plugboard.AddConnection(from, to);
+            }
+
+            public void RemovePlugboardConnection(char from, char to)
+            {
+                _plugboard.RemoveConnection(from, to);
+            }
+        }
+
+        private class PlugboardViewController
+        {
+            public PlugboardViewController()
+            {
+
+            }
         }
     }
 }

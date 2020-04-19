@@ -13,6 +13,9 @@ namespace DragAndDrop
 
             SourceRectangle.IsConnected = true;
             DestinationRectangle.IsConnected = true;
+
+            From = SourceRectangle.Letter;
+            To = DestinationRectangle.Letter;
         }
 
         public Line ConnectingLine { get; }
@@ -24,5 +27,8 @@ namespace DragAndDrop
             SourceRectangle.IsConnected = false;
             DestinationRectangle.IsConnected = false;
         }
+
+        public char From { get; }
+        public char To { get; }
     }
 }

@@ -7,5 +7,6 @@
         Dictionary<char, char> Connections { get; }
 
         void AddConnection(char from, char to);
+        void RemoveConnection(char from, char to);
     }
 }

@@ -12,7 +12,7 @@
             <RowDefinition />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <ContentControl x:Name="SourceAlphabet" />
-        <ContentControl x:Name="DestinationAlphabet" Grid.Row="1" />
+        <ContentControl x:Name="TopAlphabet" />
+        <ContentControl x:Name="BottomAlphabet" Grid.Row="1" />
     </Grid>
 </Window>
