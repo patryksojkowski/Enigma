@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="DragAndDrop.Views.ConnectingRectangleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:DragAndDrop.Views"
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d" cal:Message.Attach="[Event MouseLeftButtonDown] = [Action Rectangle_MouseLeftButtonDown($this, $eventArgs)]"
+             Width="30" Height="30">
+    <Grid>
+        <Rectangle Fill="YellowGreen"
+                   Width="30" Height="30" Stroke="Black" />
+        <TextBlock x:Name="Letter" />
+    </Grid>
+</UserControl>

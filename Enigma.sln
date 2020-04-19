@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnigmaLibrary", "EnigmaLibr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnigmaLibrary.Tests", "EnigmaLibrary.Tests\EnigmaLibrary.Tests.csproj", "{0E135ABA-FFF8-4334-9B61-630726A187F5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DragAndDrop", "DragAndDrop\DragAndDrop.csproj", "{D5E7F749-7BAF-4E4B-B5B1-B4B637EEFFF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{0E135ABA-FFF8-4334-9B61-630726A187F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E135ABA-FFF8-4334-9B61-630726A187F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E135ABA-FFF8-4334-9B61-630726A187F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5E7F749-7BAF-4E4B-B5B1-B4B637EEFFF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5E7F749-7BAF-4E4B-B5B1-B4B637EEFFF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5E7F749-7BAF-4E4B-B5B1-B4B637EEFFF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5E7F749-7BAF-4E4B-B5B1-B4B637EEFFF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
