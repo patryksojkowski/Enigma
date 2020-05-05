@@ -1,10 +1,13 @@
 ﻿namespace EnigmaUI.ViewModels
 {
+    using System.Threading.Tasks;
     using Caliburn.Micro;
     using EnigmaLibrary.Models.Interfaces;
+    using EnigmaUI.Helpers;
 
     public class EncryptionViewModel : Screen
     {
+        private readonly SemaphoreQueue _semaphoreQueue = new SemaphoreQueue(1, 1);
         private string _input = string.Empty;
         private string _output;
 
@@ -23,7 +26,10 @@
             }
             set
             {
-                HandleInputChange(_input, value);
+                var oldValue = _input;
+                var newValue = value;
+                Task.Run(() => HandleInputChange(oldValue, newValue));
+
                 _input = value;
             }
         }
@@ -41,25 +47,31 @@
             }
         }
 
-        private void HandleInputChange(string oldValue, string newValue)
+        private async Task HandleInputChange(string oldValue, string newValue)
         {
-            if (oldValue.Length < newValue.Length)
+            await _semaphoreQueue.WaitAsync();
+            await Task.Run(async () =>
             {
-                var addedSubstring = newValue.Substring(oldValue.Length);
-                foreach (var c in addedSubstring)
+                if (oldValue.Length < newValue.Length)
                 {
-                    var x = c;
-                    if (char.IsLetter(c))
+                    var addedSubstring = newValue.Substring(oldValue.Length);
+                    foreach (var c in addedSubstring)
                     {
-                        x = Enigma.Encrypt(c);
+                        var x = c;
+                        if (char.IsLetter(c))
+                        {
+                            x = await Enigma.Encrypt(c);
+                        }
+                        Output += x;
                     }
-                    Output += x;
                 }
-            }
-            else if (oldValue.Length > newValue.Length)
-            {
-                Output = Output.Remove(newValue.Length);
-            }
+                else if (oldValue.Length > newValue.Length)
+                {
+                    Output = Output.Remove(newValue.Length);
+                }
+            });
+
+            _semaphoreQueue.Release();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace EnigmaLibrary.Models.Interfaces.Components
 {
+    using System.Threading.Tasks;
     using EnigmaLibrary.Models.Classic.Components;
     using EnigmaLibrary.Models.Enums;
 
@@ -7,7 +8,7 @@
     {
         RotorStepMessage CreateRotorStepMessage(int step);
 
-        Signal CreateSignal(int value, bool step, SignalDirection direction);
+        Task<Signal> CreateSignal(int value, bool step, SignalDirection direction);
 
         LetterTranslation CreateTranslation(char from, char to, SignalDirection direction);
     }

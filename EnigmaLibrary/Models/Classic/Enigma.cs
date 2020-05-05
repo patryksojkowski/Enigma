@@ -1,5 +1,6 @@
 ﻿namespace EnigmaLibrary.Models.Classic
 {
+    using System.Threading.Tasks;
     using EnigmaLibrary.Helpers;
     using EnigmaLibrary.Models.Enums;
     using EnigmaLibrary.Models.Interfaces;
@@ -16,14 +17,14 @@
             _utilityFactory = utilityFactory;
         }
 
-        public char Encrypt(char inputLetter)
+        public async Task<char> Encrypt(char inputLetter)
         {
             var inputPosition = CommonHelper.LetterToNumber(inputLetter);
-            var signal = _utilityFactory.CreateSignal(inputPosition, false, SignalDirection.In);
+            var signal = await _utilityFactory.CreateSignal(inputPosition, false, SignalDirection.In);
 
             foreach (var component in _enigmaSettings.ComponentList)
             {
-                signal = component.Process(signal);
+                signal = await component.Process(signal);
             }
 
             var resultLetter = CommonHelper.NumberToLetter(signal.Value);

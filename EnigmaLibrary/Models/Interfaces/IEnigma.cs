@@ -1,7 +1,9 @@
-﻿namespace EnigmaLibrary.Models.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace EnigmaLibrary.Models.Interfaces
 {
     public interface IEnigma
     {
-        char Encrypt(char input);
+        Task<char> Encrypt(char input);
     }
 }

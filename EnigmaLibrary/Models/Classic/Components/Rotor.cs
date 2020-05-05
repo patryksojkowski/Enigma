@@ -1,6 +1,7 @@
 ﻿namespace EnigmaLibrary.Models.Classic.Components
 {
     using System;
+    using System.Threading.Tasks;
     using Caliburn.Micro;
     using EnigmaLibrary.Helpers;
     using EnigmaLibrary.Models.Enums;
@@ -27,7 +28,7 @@
         public RotorSlot Slot { get; private set; }
         public RotorType Type { get; private set; }
 
-        public bool Move(int steps)
+        public async Task<bool> Move(int steps)
         {
             var nextStep = false;
 
@@ -40,18 +41,18 @@
 
             PositionShift = CommonHelper.To0_25Range(PositionShift);
 
-            SendStepsToUI(steps);
+            await SendStepsToUI(steps);
 
             return nextStep;
         }
 
-        public Signal Process(Signal signal)
+        public async Task<Signal> Process(Signal signal)
         {
             bool nextStep = false;
 
             if (signal.Step)
             {
-                nextStep = Move(1);
+                nextStep = await Move(1);
             }
 
             var inputValue = signal.Value;
@@ -76,7 +77,7 @@
 
             SendTranslationToUI(inputLetter, outputLetter, signal.Direction);
 
-            return _utilityFactory.CreateSignal(resultValue, nextStep, signal.Direction);
+            return await _utilityFactory.CreateSignal(resultValue, nextStep, signal.Direction);
         }
 
         private int AddShift(int inputPosition)
@@ -89,10 +90,10 @@
             return CommonHelper.To0_25Range(outputPosition - PositionShift);
         }
 
-        private void SendStepsToUI(int steps)
+        private async Task SendStepsToUI(int steps)
         {
             var stepMessage = _utilityFactory.CreateRotorStepMessage(steps);
-            RotorAggregator.PublishOnUIThread(stepMessage);
+            await RotorAggregator.PublishOnUIThreadAsync(stepMessage);
         }
 
         private void SendTranslationToUI(char from, char to, SignalDirection direction)

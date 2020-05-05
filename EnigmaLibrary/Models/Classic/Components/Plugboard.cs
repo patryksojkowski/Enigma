@@ -1,6 +1,7 @@
 ﻿namespace EnigmaLibrary.Models.Classic.Components
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using EnigmaLibrary.Helpers;
     using EnigmaLibrary.Models.Interfaces.Components;
 
@@ -31,7 +32,7 @@
             Connections.Add(to, from);
         }
 
-        public Signal Process(Signal signal)
+        public async Task<Signal> Process(Signal signal)
         {
             var inputValue = signal.Value;
 
@@ -46,7 +47,7 @@
 
             var resultValue = CommonHelper.LetterToNumber(outputLetter);
 
-            return _utilityFactory.CreateSignal(resultValue, true, signal.Direction);
+            return await _utilityFactory.CreateSignal(resultValue, true, signal.Direction);
         }
 
         public void RemoveConnection(char from, char to)

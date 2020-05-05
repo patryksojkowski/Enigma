@@ -1,6 +1,7 @@
 ﻿namespace EnigmaLibrary.Models.Classic.Components
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Caliburn.Micro;
     using EnigmaLibrary.Helpers;
     using EnigmaLibrary.Models.Enums;
@@ -23,7 +24,7 @@
         public IEventAggregator ReflectorAggregator { get; }
         public ReflectorType Type { get; }
 
-        public Signal Process(Signal signal)
+        public async Task<Signal> Process(Signal signal)
         {
             var inputLetter = CommonHelper.NumberToLetter(signal.Value);
 
@@ -33,7 +34,7 @@
 
             var resultValue = CommonHelper.LetterToNumber(outputLetter);
 
-            return _utilityFactory.CreateSignal(resultValue, false, SignalDirection.Out);
+            return await _utilityFactory.CreateSignal(resultValue, false, SignalDirection.Out);
         }
 
         private void SendTranslationToUI(char from, char to)

@@ -76,6 +76,7 @@
     <Compile Include="Drawers\DoubleConnectionDrawer.cs" />
     <Compile Include="Drawers\DrawerHelper.cs" />
     <Compile Include="Extensions\DependencyObjectExtensions.cs" />
+    <Compile Include="Helpers\SemaphoreQueue.cs" />
     <Compile Include="ViewModels\Components\RotorViewModelFactory.cs" />
     <Compile Include="ViewModels\Components\PlugboardViewModel.cs" />
     <Compile Include="ViewModels\Components\ReflectorViewModel.cs" />

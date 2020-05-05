@@ -1,5 +1,6 @@
 ﻿namespace EnigmaLibrary.Models.Interfaces.Components
 {
+    using System.Threading.Tasks;
     using Caliburn.Micro;
     using EnigmaLibrary.Models.Enums;
 
@@ -11,6 +12,6 @@
         RotorSlot Slot { get; }
         RotorType Type { get; }
 
-        bool Move(int steps);
+        Task<bool> Move(int steps);
     }
 }
