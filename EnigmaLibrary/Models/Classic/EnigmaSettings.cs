@@ -71,16 +71,19 @@
                 default:
                     break;
             }
+            _settingsHelper.UpdateComponentList();
         }
 
         public void Handle(IReflector reflector)
         {
             Reflector = reflector;
+            _settingsHelper.UpdateComponentList();
         }
 
         public void Handle(IPlugboard plugboard)
         {
             Plugboard = plugboard;
+            _settingsHelper.UpdateComponentList();
         }
     }
 }

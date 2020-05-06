@@ -71,7 +71,7 @@
                 };
             }
 
-            private void InitializeComponentList()
+            public void UpdateComponentList()
             {
                 _enigmaSettings.ComponentList = new List<IEnigmaComponent>
                 {
@@ -121,7 +121,7 @@
                     LoadFromSettings(settings);
                 }
 
-                InitializeComponentList();
+                UpdateComponentList();
             }
         }
     }

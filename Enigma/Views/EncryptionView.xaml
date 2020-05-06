@@ -31,6 +31,6 @@
         <Label Content="Out:" Grid.Row="3" Grid.Column="1" />
 
         <!--Row 4-->
-        <TextBlock x:Name="Output" Grid.Row="4" Grid.Column="1" TextWrapping="Wrap" />
+        <TextBox x:Name="Output" Grid.Row="4" Grid.Column="1" TextWrapping="Wrap" />
     </Grid>
 </UserControl>
