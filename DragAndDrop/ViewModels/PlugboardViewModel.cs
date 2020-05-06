@@ -15,15 +15,15 @@
     public class PlugboardViewModel : Conductor<object>, IViewAware, IHandle<RectangleClickMessage>
     {
         private readonly List<RectangleConnection> _connections = new List<RectangleConnection>();
-        private readonly ConnectingViewModelFactory _factory;
         private readonly IEnigmaSettings _enigmaSettings;
+        private readonly ConnectingViewModelFactory _factory;
         private ConnectingRectangleViewModel _destinationRectangle;
         private Grid _grid;
         private bool _isConnecting;
         private Line _line;
+        private PlugboardController _plugboardController;
         private ConnectingRectangleViewModel _sourceRectangle;
         private PlugboardView _view;
-        private PlugboardController _plugboardController;
 
         public PlugboardViewModel(ConnectingAlphabetViewModel topAlphabet, ConnectingAlphabetViewModel bottomAlphabet, ConnectingViewModelFactory factory,
             IEventAggregator viewEventAggregator, IEnigmaSettings enigmaSettings)
@@ -99,6 +99,31 @@
             AddReverseConnection(source, destination);
         }
 
+        private Line AddLine(ConnectingRectangleViewModel source, ConnectingRectangleViewModel destination)
+        {
+            var startPosition = GetAnchorPoint(source);
+            var endPosition = GetAnchorPoint(destination);
+
+            var line = DrawerHelper.GetLine(startPosition, endPosition, isHitTestVisible: false);
+            AddLineToGrid(line);
+
+            return line;
+        }
+
+        private void AddLineToGrid(Line line)
+        {
+            Grid.SetRowSpan(line, 2);
+            Grid.Children.Add(line);
+        }
+
+        private void AddNewConnection(ConnectingRectangleViewModel source, ConnectingRectangleViewModel destination, Line line)
+        {
+            var connection = _factory.CreateConnection(source, destination, line);
+            _connections.Add(connection);
+
+            _plugboardController.AddPlugboardConnection(connection.From, connection.To);
+        }
+
         private void AddReverseConnection(ConnectingRectangleViewModel source, ConnectingRectangleViewModel destination)
         {
             var sourceLetter = source.Letter;
@@ -122,32 +147,6 @@
                 var line = AddLine(reverseSourceLetter, reverseDestinationLetter);
                 AddNewConnection(reverseSourceLetter, reverseDestinationLetter, line);
             }
-        }
-
-        private Line AddLine(ConnectingRectangleViewModel source, ConnectingRectangleViewModel destination)
-        {
-            var startPosition = GetAnchorPoint(source);
-            var endPosition = GetAnchorPoint(destination);
-
-            var line = DrawerHelper.GetLine(startPosition, endPosition, isHitTestVisible : false);
-            AddLineToGrid(line);
-
-            return line;
-        }
-
-
-        private void AddLineToGrid(Line line)
-        {
-            Grid.SetRowSpan(line, 2);
-            Grid.Children.Add(line);
-        }
-
-        private void AddNewConnection(ConnectingRectangleViewModel source, ConnectingRectangleViewModel destination, Line line)
-        {
-            var connection = _factory.CreateConnection(source, destination, line);
-            _connections.Add(connection);
-
-            _plugboardController.AddPlugboardConnection(connection.From, connection.To);
         }
 
         private void CancelDrawingLine()
@@ -190,7 +189,7 @@
         {
             var letter = rectangle.Letter;
             var connection = _connections.Single(con => con.SourceRectangle.Letter == letter);
-            var reverseConnection = _connections.Single(con =>con.DestinationRectangle.Letter == letter);
+            var reverseConnection = _connections.Single(con => con.DestinationRectangle.Letter == letter);
 
             RemoveConnection(connection);
             RemoveConnection(reverseConnection);
@@ -250,7 +249,6 @@
         {
             public PlugboardViewController()
             {
-
             }
         }
     }

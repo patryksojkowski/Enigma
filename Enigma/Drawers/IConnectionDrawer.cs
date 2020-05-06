@@ -1,6 +1,5 @@
 ﻿namespace EnigmaUI.Drawers
 {
-    using System.Windows.Controls;
     using EnigmaLibrary.Models.Enums;
     using EnigmaUI.Views.Helpers;
 

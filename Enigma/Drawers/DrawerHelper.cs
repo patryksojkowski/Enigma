@@ -39,7 +39,7 @@
                 StrokeThickness = strokeThickness ?? DefaultThickness,
             };
         }
-        
+
         public static Line GetLine(Point start, Point end, Brush stroke = null, double? strokeThickness = null)
         {
             return new Line
@@ -75,20 +75,20 @@
             };
         }
 
-        public static void SetLine(Line line, Point start, Point end)
-        {
-            line.X1 = start.X;
-            line.Y1 = start.Y;
-            line.X2 = end.X;
-            line.Y2 = end.Y;
-        }
-
         public static void SetHorizontalLine(Line line, Point start, double length)
         {
             line.X1 = start.X;
             line.Y1 = start.Y;
             line.X2 = start.X + length;
             line.Y2 = start.Y;
+        }
+
+        public static void SetLine(Line line, Point start, Point end)
+        {
+            line.X1 = start.X;
+            line.Y1 = start.Y;
+            line.X2 = end.X;
+            line.Y2 = end.Y;
         }
     }
 }

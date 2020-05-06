@@ -14,11 +14,8 @@
 
     public class DoubleAlphabetViewModel : AlphabetViewModelBase, IAlphabetViewModel, IHandle<LetterTranslation>, IHandle<RotorStepMessage>
     {
-        public ObservableCollection<LetterViewModel> InnerLetterViews { get; } = new ObservableCollection<LetterViewModel>();
-        public ObservableCollection<LetterViewModel> OuterLetterViews { get; } = new ObservableCollection<LetterViewModel>();
-
-
         private Grid _grid;
+
         public Grid Grid
         {
             get
@@ -26,6 +23,9 @@
                 return _grid ?? (_grid = (GetView() as DoubleAlphabetView).GetChildOfType<Grid>());
             }
         }
+
+        public ObservableCollection<LetterViewModel> InnerLetterViews { get; } = new ObservableCollection<LetterViewModel>();
+        public ObservableCollection<LetterViewModel> OuterLetterViews { get; } = new ObservableCollection<LetterViewModel>();
 
         public override void Handle(LetterTranslation translation)
         {

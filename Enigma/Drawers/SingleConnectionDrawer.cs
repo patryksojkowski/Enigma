@@ -8,16 +8,15 @@
 
     public class SingleConnectionDrawer : IConnectionDrawer
     {
-        private readonly double _xOffset = -10;
-        private readonly double _yOffset = 7;
-        private readonly Grid _grid;
-
         private readonly Line _firstLine;
+        private readonly Grid _grid;
         private readonly Line _mainLineIn;
         private readonly Line _mainLineOut;
         private readonly Line _outFirstLine;
         private readonly Line _outSecondLine;
         private readonly Line _secondLine;
+        private readonly double _xOffset = -10;
+        private readonly double _yOffset = 7;
 
         public SingleConnectionDrawer(Grid grid)
         {
@@ -46,7 +45,6 @@
                 _grid.Children.Add(_outFirstLine);
                 _grid.Children.Add(_outSecondLine);
             }
-
         }
 
         public void Draw(LetterView from, LetterView to, SignalDirection direction)

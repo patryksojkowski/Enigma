@@ -1,6 +1,5 @@
 ﻿namespace DragAndDrop.ViewModels
 {
-    using System;
     using System.Windows;
     using Caliburn.Micro;
     using DragAndDrop.Messages;
@@ -16,7 +15,6 @@
             Letter = letter;
             _eventAggregator = eventAggregator;
         }
-
 
         public bool IsConnected { get; set; }
         public char Letter { get; private set; }

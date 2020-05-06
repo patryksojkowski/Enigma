@@ -1,7 +1,6 @@
 ﻿namespace EnigmaLibrary.Models.Classic.Components
 {
     using System.Collections.Generic;
-    using System.Threading;
     using System.Threading.Tasks;
     using Caliburn.Micro;
     using EnigmaLibrary.Helpers;

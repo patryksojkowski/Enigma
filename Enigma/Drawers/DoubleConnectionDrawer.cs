@@ -8,21 +8,19 @@ namespace EnigmaUI.Drawers
 {
     internal class DoubleConnectionDrawer : IConnectionDrawer
     {
-        private readonly double _xOffset = -10;
-        private readonly double _yOffset = 7;
-
-        private readonly Grid _grid;
-
         private readonly Line _endOuterLineIn;
         private readonly Line _endOuterLineOut;
         private readonly Line _firstLineIn;
         private readonly Line _firstLineOut;
+        private readonly Grid _grid;
         private readonly Line _mainLineIn;
         private readonly Line _mainLineOut;
         private readonly Line _secondLineIn;
         private readonly Line _secondLineOut;
         private readonly Line _startOuterLineIn;
         private readonly Line _startOuterLineOut;
+        private readonly double _xOffset = -10;
+        private readonly double _yOffset = 7;
 
         public DoubleConnectionDrawer(Grid grid)
         {
@@ -38,7 +36,6 @@ namespace EnigmaUI.Drawers
 
             _endOuterLineIn = DrawerHelper.GetLine();
 
-
             var brush = DrawerHelper.BlueBrush;
 
             _mainLineOut = DrawerHelper.GetLine(brush);
@@ -53,7 +50,7 @@ namespace EnigmaUI.Drawers
 
             AddLines();
 
-            void AddLines ()
+            void AddLines()
             {
                 _grid.Children.Add(_mainLineIn);
                 Grid.SetColumnSpan(_mainLineIn, 2);
@@ -69,8 +66,6 @@ namespace EnigmaUI.Drawers
 
                 _grid.Children.Add(_endOuterLineIn);
                 Grid.SetColumnSpan(_endOuterLineIn, 2);
-
-
 
                 _grid.Children.Add(_mainLineOut);
                 Grid.SetColumnSpan(_mainLineOut, 2);
@@ -88,7 +83,6 @@ namespace EnigmaUI.Drawers
                 Grid.SetColumnSpan(_endOuterLineOut, 2);
             }
         }
-
 
         public void Draw(LetterView from, LetterView to, SignalDirection direction)
         {
@@ -109,7 +103,6 @@ namespace EnigmaUI.Drawers
 
         public void DrawFirst(LetterView from, LetterView to)
         {
-
             Point start = DrawerHelper.GetLocation(from, _grid, _xOffset, _yOffset);
             Point end = DrawerHelper.GetLocation(to, _grid, to.Width + 2 + _xOffset + 7, _yOffset);
 
@@ -119,12 +112,10 @@ namespace EnigmaUI.Drawers
 
             DrawerHelper.SetHorizontalLine(_secondLineIn, end, -5);
 
-
             var v = new Vector(from.Width + 4, 0);
 
             Point outerStart = Point.Add(start, v);
             DrawerHelper.SetHorizontalLine(_startOuterLineIn, outerStart, 50);
-
 
             Point outerEnd = Point.Add(end, -v);
             DrawerHelper.SetHorizontalLine(_endOuterLineIn, outerEnd, -50);
@@ -139,7 +130,6 @@ namespace EnigmaUI.Drawers
             DrawerHelper.SetLine(_mainLineOut, start, end);
 
             DrawerHelper.SetHorizontalLine(_firstLineOut, start, -5);
-
 
             DrawerHelper.SetHorizontalLine(_secondLineOut, end, 5);
 

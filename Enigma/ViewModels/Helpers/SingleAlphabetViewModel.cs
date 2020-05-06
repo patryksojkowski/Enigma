@@ -13,9 +13,8 @@
 
     public class SingleAlphabetViewModel : AlphabetViewModelBase, IAlphabetViewModel, IHandle<LetterTranslation>
     {
-        public List<LetterViewModel> LetterViewModels { get; } = new List<LetterViewModel>();
-
         private Grid _grid;
+
         public Grid Grid
         {
             get
@@ -23,6 +22,8 @@
                 return _grid ?? (_grid = (GetView() as SingleAlphabetView).GetChildOfType<Grid>());
             }
         }
+
+        public List<LetterViewModel> LetterViewModels { get; } = new List<LetterViewModel>();
 
         public override void Handle(LetterTranslation translation)
         {
