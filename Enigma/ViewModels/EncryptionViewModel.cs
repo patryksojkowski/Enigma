@@ -55,6 +55,7 @@
                 if (oldValue.Length < newValue.Length)
                 {
                     var addedSubstring = newValue.Substring(oldValue.Length);
+                    addedSubstring = addedSubstring.ToUpper();
                     foreach (var c in addedSubstring)
                     {
                         var x = c;
