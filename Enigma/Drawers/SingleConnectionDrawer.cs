@@ -10,69 +10,64 @@
     {
         private readonly double _xOffset = -10;
         private readonly double _yOffset = 7;
-        private Line _firstLine;
-        private Line _mainLineIn;
-        private Line _mainLineOut;
-        private Line _outFirstLine;
-        private Line _outSecondLine;
-        private Line _secondLine;
+        private readonly Grid _grid;
 
-        //public SingleConnectionDrawer()
-        //{
-        //    _mainLineIn = DrawerHelper.GetLine();
-        //    _mainLineOut = DrawerHelper.GetLine();
+        private readonly Line _firstLine;
+        private readonly Line _mainLineIn;
+        private readonly Line _mainLineOut;
+        private readonly Line _outFirstLine;
+        private readonly Line _outSecondLine;
+        private readonly Line _secondLine;
 
-        //    _firstLine = DrawerHelper.GetLine();
+        public SingleConnectionDrawer(Grid grid)
+        {
+            _grid = grid;
 
-        //    _secondLine = DrawerHelper.GetLine(DrawerHelper.BlueBrush);
+            _mainLineIn = DrawerHelper.GetLine();
 
-        //    _outFirstLine = DrawerHelper.GetLine();
+            _mainLineOut = DrawerHelper.GetLine(DrawerHelper.BlueBrush);
 
-        //    _outSecondLine = DrawerHelper.GetLine(DrawerHelper.BlueBrush);
+            _firstLine = DrawerHelper.GetLine();
 
+            _secondLine = DrawerHelper.GetLine(DrawerHelper.BlueBrush);
 
-        //}
+            _outFirstLine = DrawerHelper.GetLine();
+
+            _outSecondLine = DrawerHelper.GetLine(DrawerHelper.BlueBrush);
+
+            AddLines();
+
+            void AddLines()
+            {
+                _grid.Children.Add(_mainLineIn);
+                _grid.Children.Add(_mainLineOut);
+                _grid.Children.Add(_firstLine);
+                _grid.Children.Add(_secondLine);
+                _grid.Children.Add(_outFirstLine);
+                _grid.Children.Add(_outSecondLine);
+            }
+
+        }
 
         public void Draw(Grid grid, LetterView from, LetterView to, SignalDirection direction)
         {
-            ClearLines();
-
             Point start = DrawerHelper.GetLocation(from, grid, _xOffset, _yOffset);
             Point end = DrawerHelper.GetLocation(to, grid, _xOffset, _yOffset);
             Point middlePoint = DrawerHelper.GetMiddlePoint(start, end);
 
-            _mainLineIn = DrawerHelper.GetLine(start, middlePoint);
-            _mainLineOut = DrawerHelper.GetLine(middlePoint, end, DrawerHelper.BlueBrush);
+            DrawerHelper.SetLineBetweenPoints(_mainLineIn, start, middlePoint);
 
-            _firstLine = DrawerHelper.GetHorizontalLine(start, 5);
-            _secondLine = DrawerHelper.GetHorizontalLine(end, 5, DrawerHelper.BlueBrush);
+            DrawerHelper.SetLineBetweenPoints(_mainLineOut, middlePoint, end);
+
+            DrawerHelper.SetHorizontalLine(_firstLine, start, 5);
+
+            DrawerHelper.SetHorizontalLine(_secondLine, end, 5);
 
             var v = new Vector(from.Width + 4, 0);
 
-            _outFirstLine = DrawerHelper.GetHorizontalLine(start + v, 50);
-            _outSecondLine = DrawerHelper.GetHorizontalLine(end + v, 50, DrawerHelper.BlueBrush);
+            DrawerHelper.SetHorizontalLine(_outFirstLine, start + v, 50);
 
-            AddLines();
-
-            void ClearLines()
-            {
-                grid.Children.Remove(_mainLineIn);
-                grid.Children.Remove(_mainLineOut);
-                grid.Children.Remove(_firstLine);
-                grid.Children.Remove(_secondLine);
-                grid.Children.Remove(_outFirstLine);
-                grid.Children.Remove(_outSecondLine);
-            }
-
-            void AddLines()
-            {
-                grid.Children.Add(_mainLineIn);
-                grid.Children.Add(_mainLineOut);
-                grid.Children.Add(_firstLine);
-                grid.Children.Add(_secondLine);
-                grid.Children.Add(_outFirstLine);
-                grid.Children.Add(_outSecondLine);
-            }
+            DrawerHelper.SetHorizontalLine(_outSecondLine, end + v, 50);
         }
     }
 }

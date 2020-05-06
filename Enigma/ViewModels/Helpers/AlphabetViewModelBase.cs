@@ -6,16 +6,9 @@
     using EnigmaUI.Drawers;
     using EnigmaUI.ViewModels.Interfaces;
 
-    public abstract class AlphabetViewModelBase : IAlphabetViewModel, IHandle<LetterTranslation>, IViewAware
+    public abstract class AlphabetViewModelBase : ViewAware, IAlphabetViewModel, IHandle<LetterTranslation>
     {
         private IEventAggregator _eventAggregator;
-        private object _view;
-
-        public AlphabetViewModelBase()
-        {
-        }
-
-        public event EventHandler<ViewAttachedEventArgs> ViewAttached;
 
         public IConnectionDrawer ConnectionDrawer { get; set; }
         public char[] Connections { get; set; }
@@ -35,16 +28,6 @@
 
         public HelpersViewModelFactory HelpersViewModelFactory { get; set; }
         public int PositionShift { get; set; }
-
-        public void AttachView(object view, object context = null)
-        {
-            _view = view;
-        }
-
-        public object GetView(object context = null)
-        {
-            return _view;
-        }
 
         public abstract void Handle(LetterTranslation message);
 

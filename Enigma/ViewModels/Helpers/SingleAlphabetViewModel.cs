@@ -11,7 +11,7 @@
     using EnigmaUI.ViewModels.Interfaces;
     using EnigmaUI.Views.Helpers;
 
-    public class SingleAlphabetViewModel : AlphabetViewModelBase, IAlphabetViewModel, IViewAware, IHandle<LetterTranslation>
+    public class SingleAlphabetViewModel : AlphabetViewModelBase, IAlphabetViewModel, IHandle<LetterTranslation>
     {
         public List<LetterViewModel> LetterViewModels { get; } = new List<LetterViewModel>();
 
@@ -41,8 +41,11 @@
                 var letterViewModel = HelpersViewModelFactory.CreateLetter(letter);
                 LetterViewModels.Add(letterViewModel);
             }
+        }
 
-            ConnectionDrawer = new SingleConnectionDrawer();
+        protected override void OnViewReady(object view)
+        {
+            ConnectionDrawer = new SingleConnectionDrawer(Grid);
         }
     }
 }
