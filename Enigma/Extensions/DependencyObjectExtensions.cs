@@ -5,6 +5,12 @@
 
     public static class DependecyObjectExtensions
     {
+        /// <summary>
+        /// Limit calls to this function as much as possible since it is pretty expensive.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="depObj"></param>
+        /// <returns></returns>
         public static T GetChildOfType<T>(this DependencyObject depObj) where T : DependencyObject
         {
             if (depObj == null) return null;

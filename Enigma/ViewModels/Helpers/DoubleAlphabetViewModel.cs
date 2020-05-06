@@ -19,10 +19,19 @@
         public ObservableCollection<LetterViewModel> InnerLetterViews { get; } = new ObservableCollection<LetterViewModel>();
         public ObservableCollection<LetterViewModel> OuterLetterViews { get; } = new ObservableCollection<LetterViewModel>();
 
+
+        private Grid _grid;
+        public Grid Grid
+        {
+            get
+            {
+                return _grid ?? (_grid = (GetView() as DoubleAlphabetView).GetChildOfType<Grid>());
+            }
+        }
+
         public override void Handle(LetterTranslation translation)
         {
-            var grid = (GetView() as DoubleAlphabetView).GetChildOfType<Grid>();
-            grid.UpdateLayout();
+            Grid.UpdateLayout();
 
             LetterView fromView, toView;
 
@@ -37,7 +46,7 @@
                 toView = InnerLetterViews.First(vm => vm.Letter == translation.Result).GetView() as LetterView;
             }
 
-            ConnectionDrawer.Draw(grid, fromView, toView, translation.Direction);
+            ConnectionDrawer.Draw(Grid, fromView, toView, translation.Direction);
         }
 
         public void Handle(RotorStepMessage message)

@@ -17,6 +17,22 @@
         private Line _outSecondLine;
         private Line _secondLine;
 
+        //public SingleConnectionDrawer()
+        //{
+        //    _mainLineIn = DrawerHelper.GetLine();
+        //    _mainLineOut = DrawerHelper.GetLine();
+
+        //    _firstLine = DrawerHelper.GetLine();
+
+        //    _secondLine = DrawerHelper.GetLine(DrawerHelper.BlueBrush);
+
+        //    _outFirstLine = DrawerHelper.GetLine();
+
+        //    _outSecondLine = DrawerHelper.GetLine(DrawerHelper.BlueBrush);
+
+
+        //}
+
         public void Draw(Grid grid, LetterView from, LetterView to, SignalDirection direction)
         {
             ClearLines();

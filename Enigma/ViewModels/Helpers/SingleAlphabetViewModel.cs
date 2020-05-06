@@ -15,14 +15,21 @@
     {
         public List<LetterViewModel> LetterViewModels { get; } = new List<LetterViewModel>();
 
+        private Grid _grid;
+        public Grid Grid
+        {
+            get
+            {
+                return _grid ?? (_grid = (GetView() as SingleAlphabetView).GetChildOfType<Grid>());
+            }
+        }
+
         public override void Handle(LetterTranslation translation)
         {
-            var grid = (GetView() as SingleAlphabetView).GetChildOfType<Grid>();
-
             var fromView = LetterViewModels.First(vm => vm.Letter == translation.Input).GetView() as LetterView;
             var toView = LetterViewModels.First(vm => vm.Letter == translation.Result).GetView() as LetterView;
 
-            ConnectionDrawer.Draw(grid, fromView, toView, translation.Direction);
+            ConnectionDrawer.Draw(Grid, fromView, toView, translation.Direction);
         }
 
         public override void Initialize()
