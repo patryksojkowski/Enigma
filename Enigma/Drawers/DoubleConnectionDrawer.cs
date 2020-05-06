@@ -10,28 +10,96 @@ namespace EnigmaUI.Drawers
     {
         private readonly double _xOffset = -10;
         private readonly double _yOffset = 7;
-        private Line _endOuterLineIn;
-        private Line _endOuterLineOut;
-        private Line _firstLineIn;
-        private Line _firstLineOut;
-        private Line _mainLineIn;
-        private Line _mainLineOut;
-        private Line _secondLineIn;
-        private Line _secondLineOut;
 
-        private Line _startOuterLineIn;
-        private Line _startOuterLineOut;
+        private readonly Grid _grid;
 
-        public void Draw(Grid grid, LetterView from, LetterView to, SignalDirection direction)
+        private readonly Line _endOuterLineIn;
+        private readonly Line _endOuterLineOut;
+        private readonly Line _firstLineIn;
+        private readonly Line _firstLineOut;
+        private readonly Line _mainLineIn;
+        private readonly Line _mainLineOut;
+        private readonly Line _secondLineIn;
+        private readonly Line _secondLineOut;
+        private readonly Line _startOuterLineIn;
+        private readonly Line _startOuterLineOut;
+
+        public DoubleConnectionDrawer(Grid grid)
+        {
+            _grid = grid;
+
+            _mainLineIn = DrawerHelper.GetLine();
+
+            _firstLineIn = DrawerHelper.GetLine();
+
+            _secondLineIn = DrawerHelper.GetLine();
+
+            _startOuterLineIn = DrawerHelper.GetLine();
+
+            _endOuterLineIn = DrawerHelper.GetLine();
+
+
+            var brush = DrawerHelper.BlueBrush;
+
+            _mainLineOut = DrawerHelper.GetLine(brush);
+
+            _firstLineOut = DrawerHelper.GetLine(brush);
+
+            _secondLineOut = DrawerHelper.GetLine(brush);
+
+            _startOuterLineOut = DrawerHelper.GetLine(brush);
+
+            _endOuterLineOut = DrawerHelper.GetLine(brush);
+
+            AddLines();
+
+            void AddLines ()
+            {
+                _grid.Children.Add(_mainLineIn);
+                Grid.SetColumnSpan(_mainLineIn, 2);
+
+                _grid.Children.Add(_firstLineIn);
+                Grid.SetColumnSpan(_firstLineIn, 2);
+
+                _grid.Children.Add(_secondLineIn);
+                Grid.SetColumnSpan(_secondLineIn, 2);
+
+                _grid.Children.Add(_startOuterLineIn);
+                Grid.SetColumnSpan(_startOuterLineIn, 2);
+
+                _grid.Children.Add(_endOuterLineIn);
+                Grid.SetColumnSpan(_endOuterLineIn, 2);
+
+
+
+                _grid.Children.Add(_mainLineOut);
+                Grid.SetColumnSpan(_mainLineOut, 2);
+
+                _grid.Children.Add(_firstLineOut);
+                Grid.SetColumnSpan(_firstLineOut, 2);
+
+                _grid.Children.Add(_secondLineOut);
+                Grid.SetColumnSpan(_secondLineOut, 2);
+
+                _grid.Children.Add(_startOuterLineOut);
+                Grid.SetColumnSpan(_startOuterLineOut, 2);
+
+                _grid.Children.Add(_endOuterLineOut);
+                Grid.SetColumnSpan(_endOuterLineOut, 2);
+            }
+        }
+
+
+        public void Draw(LetterView from, LetterView to, SignalDirection direction)
         {
             switch (direction)
             {
                 case SignalDirection.In:
-                    DrawFirst(grid, from, to);
+                    DrawFirst(from, to);
                     break;
 
                 case SignalDirection.Out:
-                    DrawSecond(grid, from, to);
+                    DrawSecond(from, to);
                     break;
 
                 default:
@@ -39,96 +107,51 @@ namespace EnigmaUI.Drawers
             }
         }
 
-        public void DrawFirst(Grid grid, LetterView from, LetterView to)
+        public void DrawFirst(LetterView from, LetterView to)
         {
-            ClearLines();
 
-            Point start = DrawerHelper.GetLocation(from, grid, _xOffset, _yOffset);
-            Point end = DrawerHelper.GetLocation(to, grid, to.Width + 2 + _xOffset + 7, _yOffset);
+            Point start = DrawerHelper.GetLocation(from, _grid, _xOffset, _yOffset);
+            Point end = DrawerHelper.GetLocation(to, _grid, to.Width + 2 + _xOffset + 7, _yOffset);
 
-            _mainLineIn = DrawerHelper.GetLine(start, end);
-            Grid.SetColumnSpan(_mainLineIn, 2);
+            DrawerHelper.SetLine(_mainLineIn, start, end);
 
-            _firstLineIn = DrawerHelper.GetHorizontalLine(start, 5);
-            Grid.SetColumnSpan(_firstLineIn, 2);
+            DrawerHelper.SetHorizontalLine(_firstLineIn, start, 5);
 
-            _secondLineIn = DrawerHelper.GetHorizontalLine(end, -5);
+            DrawerHelper.SetHorizontalLine(_secondLineIn, end, -5);
+
 
             var v = new Vector(from.Width + 4, 0);
 
             Point outerStart = Point.Add(start, v);
+            DrawerHelper.SetHorizontalLine(_startOuterLineIn, outerStart, 50);
 
-            _startOuterLineIn = DrawerHelper.GetHorizontalLine(outerStart, 50);
-            Grid.SetColumnSpan(_startOuterLineIn, 2);
 
             Point outerEnd = Point.Add(end, -v);
-
-            _endOuterLineIn = DrawerHelper.GetHorizontalLine(outerEnd, -50);
-            Grid.SetColumnSpan(_endOuterLineIn, 2);
-
-            AddLines();
-
-            void ClearLines()
-            {
-                grid.Children.Remove(_mainLineIn);
-                grid.Children.Remove(_firstLineIn);
-                grid.Children.Remove(_secondLineIn);
-                grid.Children.Remove(_mainLineOut);
-                grid.Children.Remove(_firstLineOut);
-                grid.Children.Remove(_secondLineOut);
-                grid.Children.Remove(_startOuterLineIn);
-                grid.Children.Remove(_endOuterLineIn);
-                grid.Children.Remove(_startOuterLineOut);
-                grid.Children.Remove(_endOuterLineOut);
-            }
-
-            void AddLines()
-            {
-                grid.Children.Add(_mainLineIn);
-                grid.Children.Add(_firstLineIn);
-                grid.Children.Add(_secondLineIn);
-                grid.Children.Add(_startOuterLineIn);
-                grid.Children.Add(_endOuterLineIn);
-            }
+            DrawerHelper.SetHorizontalLine(_endOuterLineIn, outerEnd, -50);
         }
 
-        public void DrawSecond(Grid grid, LetterView from, LetterView to)
+        public void DrawSecond(LetterView from, LetterView to)
         {
             var brush = DrawerHelper.BlueBrush;
-            Point start = DrawerHelper.GetLocation(from, grid, from.Width + 2 + _xOffset + 7, _yOffset);
-            Point end = DrawerHelper.GetLocation(to, grid, _xOffset, _yOffset);
+            Point start = DrawerHelper.GetLocation(from, _grid, from.Width + 2 + _xOffset + 7, _yOffset);
+            Point end = DrawerHelper.GetLocation(to, _grid, _xOffset, _yOffset);
 
-            _mainLineOut = DrawerHelper.GetLine(start, end, brush);
-            Grid.SetColumnSpan(_mainLineOut, 2);
+            DrawerHelper.SetLine(_mainLineOut, start, end);
 
-            _firstLineOut = DrawerHelper.GetHorizontalLine(start, -5, brush);
-            Grid.SetColumnSpan(_firstLineOut, 2);
+            DrawerHelper.SetHorizontalLine(_firstLineOut, start, -5);
 
-            _secondLineOut = DrawerHelper.GetHorizontalLine(end, 5, brush);
-            Grid.SetColumnSpan(_secondLineOut, 2);
+
+            DrawerHelper.SetHorizontalLine(_secondLineOut, end, 5);
 
             var v = new Vector(from.Width + 4, 0);
 
             Point outerStart = Point.Add(start, -v);
 
-            _startOuterLineOut = DrawerHelper.GetHorizontalLine(outerStart, -50, brush);
-            Grid.SetColumnSpan(_startOuterLineOut, 2);
+            DrawerHelper.SetHorizontalLine(_startOuterLineOut, outerStart, -50);
 
             Point outerEnd = Point.Add(end, v);
 
-            _endOuterLineOut = DrawerHelper.GetHorizontalLine(outerEnd, 50, brush);
-            Grid.SetColumnSpan(_endOuterLineOut, 2);
-
-            AddLines();
-
-            void AddLines()
-            {
-                grid.Children.Add(_mainLineOut);
-                grid.Children.Add(_firstLineOut);
-                grid.Children.Add(_secondLineOut);
-                grid.Children.Add(_startOuterLineOut);
-                grid.Children.Add(_endOuterLineOut);
-            }
+            DrawerHelper.SetHorizontalLine(_endOuterLineOut, outerEnd, 50);
         }
     }
 }

@@ -49,15 +49,15 @@
 
         }
 
-        public void Draw(Grid grid, LetterView from, LetterView to, SignalDirection direction)
+        public void Draw(LetterView from, LetterView to, SignalDirection direction)
         {
-            Point start = DrawerHelper.GetLocation(from, grid, _xOffset, _yOffset);
-            Point end = DrawerHelper.GetLocation(to, grid, _xOffset, _yOffset);
+            Point start = DrawerHelper.GetLocation(from, _grid, _xOffset, _yOffset);
+            Point end = DrawerHelper.GetLocation(to, _grid, _xOffset, _yOffset);
             Point middlePoint = DrawerHelper.GetMiddlePoint(start, end);
 
-            DrawerHelper.SetLineBetweenPoints(_mainLineIn, start, middlePoint);
+            DrawerHelper.SetLine(_mainLineIn, start, middlePoint);
 
-            DrawerHelper.SetLineBetweenPoints(_mainLineOut, middlePoint, end);
+            DrawerHelper.SetLine(_mainLineOut, middlePoint, end);
 
             DrawerHelper.SetHorizontalLine(_firstLine, start, 5);
 

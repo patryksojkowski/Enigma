@@ -75,7 +75,7 @@
             };
         }
 
-        public static void SetLineBetweenPoints(Line line, Point start, Point end)
+        public static void SetLine(Line line, Point start, Point end)
         {
             line.X1 = start.X;
             line.Y1 = start.Y;

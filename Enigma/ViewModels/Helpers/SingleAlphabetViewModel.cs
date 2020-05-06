@@ -29,7 +29,7 @@
             var fromView = LetterViewModels.First(vm => vm.Letter == translation.Input).GetView() as LetterView;
             var toView = LetterViewModels.First(vm => vm.Letter == translation.Result).GetView() as LetterView;
 
-            ConnectionDrawer.Draw(Grid, fromView, toView, translation.Direction);
+            ConnectionDrawer.Draw(fromView, toView, translation.Direction);
         }
 
         public override void Initialize()

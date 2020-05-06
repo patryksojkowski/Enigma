@@ -6,10 +6,10 @@
     using DragAndDrop.Messages;
     using DragAndDrop.Views;
 
-    public class ConnectingRectangleViewModel : IViewAware
+    public class ConnectingRectangleViewModel : ViewAware
     {
         private readonly IEventAggregator _eventAggregator;
-        private object _view;
+        public ConnectingRectangleView _view;
 
         public ConnectingRectangleViewModel(char letter, IEventAggregator eventAggregator)
         {
@@ -17,7 +17,6 @@
             _eventAggregator = eventAggregator;
         }
 
-        public event EventHandler<ViewAttachedEventArgs> ViewAttached;
 
         public bool IsConnected { get; set; }
         public char Letter { get; private set; }
@@ -26,18 +25,8 @@
         {
             get
             {
-                return _view as ConnectingRectangleView;
+                return _view ?? (_view = GetView() as ConnectingRectangleView);
             }
-        }
-
-        public void AttachView(object view, object context = null)
-        {
-            _view = view;
-        }
-
-        public object GetView(object context = null)
-        {
-            return _view;
         }
 
         public void Rectangle_MouseLeftButtonDown(object sender, RoutedEventArgs e)

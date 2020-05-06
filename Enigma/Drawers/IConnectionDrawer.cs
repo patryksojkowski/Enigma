@@ -6,6 +6,6 @@
 
     public interface IConnectionDrawer
     {
-        void Draw(Grid parrent, LetterView from, LetterView to, SignalDirection direction);
+        void Draw(LetterView from, LetterView to, SignalDirection direction);
     }
 }

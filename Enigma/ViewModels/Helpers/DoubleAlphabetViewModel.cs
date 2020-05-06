@@ -2,7 +2,6 @@
 {
     using System.Collections.ObjectModel;
     using System.Linq;
-    using System.Threading.Tasks;
     using System.Windows.Controls;
     using Caliburn.Micro;
     using EnigmaLibrary.Helpers;
@@ -13,8 +12,7 @@
     using EnigmaUI.ViewModels.Interfaces;
     using EnigmaUI.Views.Helpers;
 
-    public class DoubleAlphabetViewModel : AlphabetViewModelBase, IAlphabetViewModel, IViewAware,
-        IHandle<LetterTranslation>, IHandle<RotorStepMessage>
+    public class DoubleAlphabetViewModel : AlphabetViewModelBase, IAlphabetViewModel, IHandle<LetterTranslation>, IHandle<RotorStepMessage>
     {
         public ObservableCollection<LetterViewModel> InnerLetterViews { get; } = new ObservableCollection<LetterViewModel>();
         public ObservableCollection<LetterViewModel> OuterLetterViews { get; } = new ObservableCollection<LetterViewModel>();
@@ -46,7 +44,7 @@
                 toView = InnerLetterViews.First(vm => vm.Letter == translation.Result).GetView() as LetterView;
             }
 
-            ConnectionDrawer.Draw(Grid, fromView, toView, translation.Direction);
+            ConnectionDrawer.Draw(fromView, toView, translation.Direction);
         }
 
         public void Handle(RotorStepMessage message)
@@ -62,8 +60,11 @@
                 InnerLetterViews.Add(HelpersViewModelFactory.CreateLetter(letter));
                 OuterLetterViews.Add(HelpersViewModelFactory.CreateLetter(letter));
             }
+        }
 
-            ConnectionDrawer = new DoubleConnectionDrawer();
+        protected override void OnViewReady(object view)
+        {
+            ConnectionDrawer = new DoubleConnectionDrawer(Grid);
         }
 
         private void MoveAlphabetBy(int steps)
