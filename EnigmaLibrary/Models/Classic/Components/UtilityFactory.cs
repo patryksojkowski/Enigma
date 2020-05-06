@@ -20,7 +20,7 @@ namespace EnigmaLibrary.Models.Classic.Components
             return new LetterTranslation(from, to, direction);
         }
 
-        Task<Signal> IUtilityFactory.CreateSignal(int value, bool step, SignalDirection direction)
+        public Task<Signal> CreateSignal(int value, bool step, SignalDirection direction)
         {
             return Task.Run(() => new Signal(value, step, direction));
         }

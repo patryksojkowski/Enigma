@@ -62,17 +62,17 @@
 
         [Theory]
         [ClassData(typeof(ProcessTestData))]
-        public void Process_GetCorrectOutput(Dictionary<char, char> connections, char inputLetter, char expectedLetter, bool step, bool expectedStep)
+        public async void Process_GetCorrectOutput(Dictionary<char, char> connections, char inputLetter, char expectedLetter, bool step, bool expectedStep)
         {
             // Arrange
             var utilityFactory = new UtilityFactory();
             var factory = new ComponentFactory(utilityFactory);
             var plugboard = factory.CreatePlugboard(connections);
             var inputValue = CommonHelper.LetterToNumber(inputLetter);
-            var signal = utilityFactory.CreateSignal(inputValue, step, SignalDirection.In);
+            var signal = await utilityFactory.CreateSignal(inputValue, step, SignalDirection.In);
 
             // Act
-            var resultSignal = plugboard.Process(signal);
+            var resultSignal = await plugboard.Process(signal);
             var resultValue = resultSignal.Value;
             var resultLetter = CommonHelper.NumberToLetter(resultValue);
             var resultStep = resultSignal.Step;

@@ -13,7 +13,7 @@
         [Theory]
         [InlineData('S', 'M')]
         [InlineData('M', 'S')]
-        public void Encrypt_ShouldReturnCharacter(char input, char expected)
+        public async void Encrypt_ShouldReturnCharacter(char input, char expected)
         {
             // Arrange
             var eventAggregator = new EventAggregator();
@@ -44,7 +44,7 @@
             var enigma = new Enigma(settings, utilityFactory);
 
             // Act
-            var result = enigma.Encrypt(input);
+            var result = await enigma.Encrypt(input);
 
             // Assert
             Assert.Equal(expected, result);

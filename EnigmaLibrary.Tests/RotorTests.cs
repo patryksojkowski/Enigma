@@ -38,7 +38,7 @@
         [InlineData('Z', 'C', false, false, 11, 11)]
         [InlineData('Z', 'H', true, false, 11, 12)]
         [InlineData('A', 'E', true, true, 25, 0)]
-        public void Process_GetCorrectOutput(char inputLetter, char expectedLetter, bool step, bool expectedStep, int position, int expectedPosition,
+        public async void Process_GetCorrectOutput(char inputLetter, char expectedLetter, bool step, bool expectedStep, int position, int expectedPosition,
             RotorType type = RotorType.I, RotorSlot slot = RotorSlot.One)
         {
             // Arrange
@@ -46,10 +46,10 @@
             var componentFactory = new ComponentFactory(utilityFactory);
             var rotor = componentFactory.CreateRotor(type, slot, position);
             var inputValue = CommonHelper.LetterToNumber(inputLetter);
-            var signal = utilityFactory.CreateSignal(inputValue, step, SignalDirection.In);
+            var signal = await utilityFactory.CreateSignal(inputValue, step, SignalDirection.In);
 
             // Act
-            var resultSignal = rotor.Process(signal);
+            var resultSignal = await rotor.Process(signal);
             var resultValue = resultSignal.Value;
             var resultLetter = CommonHelper.NumberToLetter(resultValue);
             var resultStep = resultSignal.Step;

@@ -12,17 +12,17 @@
         [InlineData('P', 'C', true, false, ReflectorType.C)]
         [InlineData('Z', 'S', false, false, ReflectorType.BD)]
         [InlineData('H', 'K', false, false, ReflectorType.CD)]
-        public void Process_GetCorrectOutput(char inputLetter, char expectedLetter, bool step, bool expectedStep, ReflectorType type)
+        public async void Process_GetCorrectOutput(char inputLetter, char expectedLetter, bool step, bool expectedStep, ReflectorType type)
         {
             // Arrange
             var utilityFactory = new UtilityFactory();
             var factory = new ComponentFactory(utilityFactory);
             var reflector = factory.CreateReflector(type);
             var inputValue = CommonHelper.LetterToNumber(inputLetter);
-            var signal = utilityFactory.CreateSignal(inputValue, step, SignalDirection.In);
+            var signal = await utilityFactory.CreateSignal(inputValue, step, SignalDirection.In);
 
             // Act
-            var resultSignal = reflector.Process(signal);
+            var resultSignal = await reflector.Process(signal);
             var resultValue = resultSignal.Value;
             var resultLetter = CommonHelper.NumberToLetter(resultValue);
             var resultStep = resultSignal.Step;
